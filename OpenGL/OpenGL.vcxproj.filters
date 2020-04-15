@@ -48,6 +48,21 @@
     <ClInclude Include="stb_image2.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\IApplicationEventHandler.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\InputControl.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\KeyInputs.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\TestEventHandler.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\sdltiming.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\display.cpp">
@@ -69,6 +84,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="stb_image2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\TestEventHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\sdltiming.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

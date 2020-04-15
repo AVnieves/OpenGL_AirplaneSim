@@ -1,14 +1,58 @@
 #include <iostream>
 #include <SDL2/SDL.h>
+#include <time.h>
+#include <Windows.h>
 #include "display.h"
 #include "mesh.h"
 #include "shader.h"
 #include "texture.h"
 #include "transform.h"
 #include "camera.h"
+#include "IApplicationEventHandler.h"
+#include "TestEventHandler.hpp"
+#include "KeyInputs.hpp"
+#include "sdltiming.hpp"
 
 static const int DISPLAY_WIDTH = 800;
 static const int DISPLAY_HEIGHT = 600;
+
+
+void processMessages(double delta, TestEventHandler& eventHandler, bool& isAppRunning)
+{
+	SDL_Event e;
+	(void)delta;
+
+	while (SDL_PollEvent(&e)) {
+		std::cout << "Type: " << e.type << std::endl;
+		switch (e.type) {
+		case SDL_KEYDOWN:
+			eventHandler.onKeyDown(e.key.keysym.scancode, e.key.repeat != 0);
+			std::cout << "KEYDOWN: " << e.type << std::endl;
+			break;
+		case SDL_KEYUP:
+			eventHandler.onKeyUp(e.key.keysym.scancode, e.key.repeat != 0);
+			std::cout << "KEYUP: " << e.type << std::endl;
+			break;
+		case SDL_MOUSEBUTTONDOWN:
+			eventHandler.onMouseDown(e.button.button, 1);
+			std::cout << "MOUSEDOWN: " << e.type << std::endl;
+			break;
+		case SDL_MOUSEBUTTONUP:
+			eventHandler.onMouseUp(e.button.button, 1);
+			std::cout << "MOUSEUP: " << e.type << std::endl;
+			break;
+		//case SDL_MOUSEMOTION:
+			//eventHandler.onMouseMove(e.motion.x, e.motion.y, e.motion.xrel, e.motion.yrel);
+			//break;
+		case SDL_QUIT:
+			isAppRunning = false;
+			break;
+		default:
+			break;
+		};
+	}
+}
+
 
 int main(int argc, char** argv)
 {
@@ -72,38 +116,104 @@ int main(int argc, char** argv)
 	Shader shader("./res/basicShader");
 	Texture texture("./res/TALTS.jpg");
 	Transform transform;
-	Camera camera(glm::vec3(0.0f, 0.0f, -5.0f), 70.0f, (float)DISPLAY_WIDTH / (float)DISPLAY_HEIGHT, 0.1f, 100.0f);
+	Camera camera(glm::vec3(0.0f, 0.0f, -20.f), 70.0f, (float)DISPLAY_WIDTH / (float)DISPLAY_HEIGHT, 0.1f, 100.0f);
 
 	SDL_Event e;
 	bool isRunning = true;
 	float counter = 0.0f;
+
+	// control
+	float amt = 0.f;
+	TestEventHandler eventHandler;
+	InputControl* horizontal = new InputControl();
+	InputControl* vertical = new InputControl();
+
+	//std::pair<InputControl, float> down = { std::make_pair(vertical, -1.f) };
+	//std::pair<InputControl, float> up = { std::make_pair(vertical, 1.f) };
+	//std::pair<InputControl, float> left = { std::make_pair(horizontal, -1.f) };
+	//std::pair<InputControl, float> right = { std::make_pair(horizontal, 1.f) };
+
+	//eventHandler.addKeyControl((KeyInputs::KEY_A), left);
+	//eventHandler.addKeyControl((KeyInputs::KEY_D), right);
+	//eventHandler.addKeyControl((KeyInputs::KEY_W), up);
+	//eventHandler.addKeyControl((KeyInputs::KEY_S), down);
+
+	eventHandler.addKeyControl((KeyInputs::KEY_A), *horizontal, 1.f);
+	eventHandler.addKeyControl((KeyInputs::KEY_D), *horizontal, -1.f);
+	eventHandler.addKeyControl((KeyInputs::KEY_W), *vertical, 1.f);
+	eventHandler.addKeyControl((KeyInputs::KEY_S), *vertical, -1.f);
+	eventHandler.addMouseControl((KeyInputs::MOUSE_LEFT_BUTTON), *horizontal, 1.f);
+	eventHandler.addMouseControl((KeyInputs::MOUSE_RIGHT_BUTTON), *horizontal, -1.f);
+
+	//eventHandler.addMouseControl((KeyInputs::MOUSE_LEFT_BUTTON), left);
+	//eventHandler.addMouseControl((KeyInputs::MOUSE_RIGHT_BUTTON), right);
+
+	// frame updates
+	unsigned int fps = 0;
+	double lastTime = SDLTiming::getTime();
+	double frameCounter = 0.0;
+	double updateTime = 1.0;
+	float frameTime = 1.0 / 60.0;
+	float xPos = 0.f;
+	float yPos = 0.f;
+	//transform.GetRot()->y = 3.14;
+	transform.GetRot()->x = 3.14;
 	while (isRunning)
 	{
-		while (SDL_PollEvent(&e))
+		double currentTime = SDLTiming::getTime();
+		double passedTime = currentTime - lastTime;
+		lastTime = currentTime;
+
+		frameCounter += passedTime;
+		updateTime += passedTime;
+
+		if (frameCounter >= 1.0)
 		{
-			if (e.type == SDL_QUIT)
-				isRunning = false;
+			double msPerFrame = 1000.0 / (double)fps;
+			frameCounter = 0;
+			fps = 0;
 		}
 
-		display.Clear(0.0f, 0.0f, 0.0f, 1.0f);
+		bool shouldRender = false;
+		while (updateTime >= frameTime)
+		{
+			processMessages(frameTime, eventHandler, isRunning);
+			float sinCounter = sinf(counter);
+			float absSinCounter = abs(sinCounter);
+			xPos += 10.f * frameTime * horizontal->getAmt();
+			yPos += 10.f * frameTime * vertical->getAmt();
+			transform.GetPos()->x = xPos;
+			transform.GetPos()->y = yPos;
+			//transform.GetPos()->x = sinCounter;
 
-		float sinCounter = sinf(counter);
-		float absSinCounter = abs(sinCounter);
+			//transform.GetRot()->z = counter * 100;
+			//transform.GetScale()->x = absSinCounter;
+			//transform.GetScale()->y = absSinCounter;
+			amt += (float)frameTime / 2.f;
+			updateTime -= frameTime;
+			shouldRender = true;
+		}
 
-		//transform.GetPos()->x = sinCounter;
-		transform.GetRot()->y = counter;
-		//transform.GetRot()->z = counter * 100;
-		//transform.GetScale()->x = absSinCounter;
-		//transform.GetScale()->y = absSinCounter;
+		if (shouldRender)
+		{
+			display.Clear(0.1f, 0.1f, 0.8f, 1.0f);
 
-		shader.Bind();
-		texture.Bind();
-		shader.Update(transform, camera);
-		T38.Draw();
-		//mesh.Draw();
 
-		display.SwapBuffers();
-		SDL_Delay(1);
+			shader.Bind();
+			texture.Bind();
+			shader.Update(transform, camera);
+			T38.Draw();
+			//mesh.Draw();
+
+			display.SwapBuffers();
+			//SDL_Delay(1);
+
+			fps++;
+		}
+		else
+		{
+			Sleep(1);
+		}
 		counter += 0.01f;
 	}
 
