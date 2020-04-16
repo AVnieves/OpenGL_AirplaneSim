@@ -1,3 +1,12 @@
+// Entity component system
+// system of entities and components
+// component: raw data ( c struct)
+// entity: list of components
+// System: takes components and uses that for specific purpose
+// logic is in system, data is in components and the connection is entity
+
+// Start code based on the Bennybox youtube videos. 
+
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <time.h>
@@ -12,6 +21,11 @@
 #include "TestEventHandler.hpp"
 #include "KeyInputs.hpp"
 #include "sdltiming.hpp"
+#include "Tests.h"
+#include <imgui/imgui.h>
+#include <imgui/imgui_impl_opengl3.h>
+#include <imgui/imgui_impl_sdl.h>
+
 
 static const int DISPLAY_WIDTH = 800;
 static const int DISPLAY_HEIGHT = 600;
@@ -116,37 +130,39 @@ int main(int argc, char** argv)
 	Shader shader("./res/basicShader");
 	Texture texture("./res/TALTS.jpg");
 	Transform transform;
-	Camera camera(glm::vec3(0.0f, 0.0f, -20.f), 70.0f, (float)DISPLAY_WIDTH / (float)DISPLAY_HEIGHT, 0.1f, 100.0f);
+	Camera camera(glm::vec3(0.0f, 0.0f, -20.f), glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f,1.f,0.f), 70.0f, (float)DISPLAY_WIDTH / (float)DISPLAY_HEIGHT, 0.1f, 100.0f);
 
 	SDL_Event e;
 	bool isRunning = true;
-	float counter = 0.0f;
+	float xcounter = 0.0f;
+	float ycounter = 0.0f;
+	float zcounter = 0.0f;
 
 	// control
 	float amt = 0.f;
 	TestEventHandler eventHandler;
 	InputControl* horizontal = new InputControl();
 	InputControl* vertical = new InputControl();
-
-	//std::pair<InputControl, float> down = { std::make_pair(vertical, -1.f) };
-	//std::pair<InputControl, float> up = { std::make_pair(vertical, 1.f) };
-	//std::pair<InputControl, float> left = { std::make_pair(horizontal, -1.f) };
-	//std::pair<InputControl, float> right = { std::make_pair(horizontal, 1.f) };
-
-	//eventHandler.addKeyControl((KeyInputs::KEY_A), left);
-	//eventHandler.addKeyControl((KeyInputs::KEY_D), right);
-	//eventHandler.addKeyControl((KeyInputs::KEY_W), up);
-	//eventHandler.addKeyControl((KeyInputs::KEY_S), down);
+	InputControl* forward = new InputControl();
 
 	eventHandler.addKeyControl((KeyInputs::KEY_A), *horizontal, 1.f);
 	eventHandler.addKeyControl((KeyInputs::KEY_D), *horizontal, -1.f);
 	eventHandler.addKeyControl((KeyInputs::KEY_W), *vertical, 1.f);
 	eventHandler.addKeyControl((KeyInputs::KEY_S), *vertical, -1.f);
-	eventHandler.addMouseControl((KeyInputs::MOUSE_LEFT_BUTTON), *horizontal, 1.f);
-	eventHandler.addMouseControl((KeyInputs::MOUSE_RIGHT_BUTTON), *horizontal, -1.f);
+	//eventHandler.addMouseControl((KeyInputs::MOUSE_LEFT_BUTTON), *forward, 1.f);
+	//eventHandler.addMouseControl((KeyInputs::MOUSE_RIGHT_BUTTON), *forward, -1.f);
 
-	//eventHandler.addMouseControl((KeyInputs::MOUSE_LEFT_BUTTON), left);
-	//eventHandler.addMouseControl((KeyInputs::MOUSE_RIGHT_BUTTON), right);
+	// Setup ImGui Context
+	ImGui::CreateContext();
+	ImGui_ImplSDL2_InitForOpenGL(display.GetWindow(), display.GetContext());
+	ImGui_ImplOpenGL3_Init("#version 130");
+
+	//test::Tests* currentTest = nullptr;
+	//test::TestMenu* testMenu = new test::TestMenu(currentTest);
+
+	// add tests here:
+	int buttonState = 0;
+	int prevButtonState = buttonState;
 
 	// frame updates
 	unsigned int fps = 0;
@@ -156,8 +172,11 @@ int main(int argc, char** argv)
 	float frameTime = 1.0 / 60.0;
 	float xPos = 0.f;
 	float yPos = 0.f;
+	float zPos = 0.f;
 	//transform.GetRot()->y = 3.14;
 	transform.GetRot()->x = 3.14;
+	bool incrementCounter = false;
+
 	while (isRunning)
 	{
 		double currentTime = SDLTiming::getTime();
@@ -174,48 +193,148 @@ int main(int argc, char** argv)
 			fps = 0;
 		}
 
+
+
+		if (prevButtonState != buttonState || incrementCounter == true)
+		{
+			glm::vec3 pos;
+			glm::vec3 forward;
+			glm::vec3 up;
+			switch (buttonState)
+			{
+			case 0:
+			{
+				forward = glm::vec3(0.f, 0.f, 1.f);
+				up = glm::vec3(0.f, 1.f, 0.f);
+				pos = glm::vec3(0.f, 0.f, -20.f);
+				prevButtonState = buttonState;
+				incrementCounter = false;
+				break;
+			}
+			case 1:
+			{
+				forward = glm::vec3(1.f, 0.f, 0.f);
+				up = glm::vec3(0.f, 0.f, -1.f);
+				pos = glm::vec3(-10.f, 0.f, 0.f);
+				prevButtonState = buttonState;
+				incrementCounter = false;
+				break;
+			}
+			case 2:
+			{
+				forward = glm::vec3(0.f, 1.f, 0.f);
+				up = glm::vec3(0.f, 0.f, -1.f);
+				pos = glm::vec3(0.f, -10.f, 0.f);
+				prevButtonState = buttonState;
+				incrementCounter = false;
+				break;
+			}
+			default:
+				std::cout << "Invalid Button State" << std::endl;
+				break;
+			}
+			camera.SetCameraPosition(pos);
+			camera.SetCameraForward(forward);
+			camera.SetCameraUp(up);
+		}
+
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplSDL2_NewFrame(display.GetWindow());
+		ImGui::NewFrame();
+
 		bool shouldRender = false;
-		while (updateTime >= frameTime)
-		{
-			processMessages(frameTime, eventHandler, isRunning);
-			float sinCounter = sinf(counter);
-			float absSinCounter = abs(sinCounter);
-			xPos += 10.f * frameTime * horizontal->getAmt();
-			yPos += 10.f * frameTime * vertical->getAmt();
-			transform.GetPos()->x = xPos;
-			transform.GetPos()->y = yPos;
-			//transform.GetPos()->x = sinCounter;
 
-			//transform.GetRot()->z = counter * 100;
-			//transform.GetScale()->x = absSinCounter;
-			//transform.GetScale()->y = absSinCounter;
-			amt += (float)frameTime / 2.f;
-			updateTime -= frameTime;
-			shouldRender = true;
-		}
+		//if (currentTest)
+		//{
+			while (updateTime >= frameTime)
+			{
+				//currentTest->OnUpdate();
+				processMessages(frameTime, eventHandler, isRunning);
+				//xfloat sinCounter = sinf(counter);
+				//float absSinCounter = abs(sinCounter);
+				xPos += 10.f * frameTime * horizontal->getAmt();
+				yPos += 10.f * frameTime * vertical->getAmt();
+				zPos += 5.f * frameTime * forward->getAmt();
+				transform.GetPos()->x = xPos;
+				transform.GetPos()->y = yPos;
+				transform.GetPos()->z = zPos;
 
-		if (shouldRender)
-		{
-			display.Clear(0.1f, 0.1f, 0.8f, 1.0f);
+				amt += (float)frameTime / 2.f;
+				updateTime -= frameTime;
+				shouldRender = true;
+			}
+
+			{
+				ImGui::Begin("hello, World");
+				ImGui::BeginGroup();
+				ImGui::RadioButton("Camera Position Top", &buttonState, 0);
+				ImGui::RadioButton("Camera Position Side", &buttonState, 1);
+				ImGui::RadioButton("Camera Position Behind", &buttonState, 2);
+				ImGui::EndGroup();
+
+				if (
+					ImGui::SliderFloat("X Pos", &xcounter, -10.0f, 10.0f) ||            // Edit 1 float using a slider from 0.0f to 1.0f
+					ImGui::SliderFloat("Y Pos", &ycounter, -10.f, 10.f) ||
+					ImGui::SliderFloat("Z Pos", &zcounter, -20.f, 20.f))
+					incrementCounter = true;
+				//if (ImGui::Button("X Counter Button"))
+				//{
+				//	xcounter++;
+				//	incrementCounter = true;
+				//}
+				//ImGui::SameLine();
+				//ImGui::Text("xcounter = %f", xcounter);
+
+				//if (ImGui::Button("Y Counter Button"))
+				//	ycounter++;
+				//ImGui::SameLine();
+				//ImGui::Text("ycounter = %f", ycounter);
+
+				//if (ImGui::Button("Z Counter Button"))
+				//	zcounter++;
+				//ImGui::SameLine();
+				//ImGui::Text("zcounter = %f", zcounter);
 
 
-			shader.Bind();
-			texture.Bind();
-			shader.Update(transform, camera);
-			T38.Draw();
-			//mesh.Draw();
+				ImGui::End();
+			}
 
-			display.SwapBuffers();
-			//SDL_Delay(1);
+			if (shouldRender)
+			{
+				//currentTest->OnRender();
+				//if (currentTest != testMenu && ImGui::Button("<-"))
+				//{
+				//	delete currentTest;
+				//	currentTest = testMenu;
+				//}
+				//currentTest->OnImGuiRender();
 
-			fps++;
-		}
-		else
-		{
-			Sleep(1);
-		}
-		counter += 0.01f;
+				display.Clear(0.1f, 0.1f, 0.8f, 1.0f);
+				ImGui::Render();
+				shader.Bind();
+				texture.Bind();
+				shader.Update(transform, camera);
+				T38.Draw();
+				//mesh.Draw();
+				ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+				display.SwapBuffers();
+				fps++;
+			}
+			else
+			{
+				Sleep(1);
+				ImGui::Render();
+				ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+			}
+
+
+		//}
+
 	}
+
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplSDL2_Shutdown();
+	ImGui::DestroyContext();
 
 	return 0;
 }

@@ -11,7 +11,8 @@ public:
 
 	void Clear(float r, float g, float b, float a);
 	void SwapBuffers();
-
+	SDL_Window* GetWindow();
+	SDL_GLContext GetContext();
 	virtual ~Display();
 protected:
 private:

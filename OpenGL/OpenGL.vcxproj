@@ -19,6 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\imgui\imconfig.h" />
+    <ClInclude Include="include\imgui\imgui.h" />
+    <ClInclude Include="include\imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="include\imgui\imgui_impl_sdl.h" />
+    <ClInclude Include="include\imgui\imgui_internal.h" />
+    <ClInclude Include="include\imgui\imstb_rectpack.h" />
+    <ClInclude Include="include\imgui\imstb_textedit.h" />
+    <ClInclude Include="include\imgui\imstb_truetype.h" />
     <ClInclude Include="source\camera.h" />
     <ClInclude Include="source\debugTimer.h" />
     <ClInclude Include="source\display.h" />
@@ -30,20 +38,30 @@
     <ClInclude Include="source\obj_loader.h" />
     <ClInclude Include="source\sdltiming.hpp" />
     <ClInclude Include="source\shader.h" />
+    <ClInclude Include="source\TestCameraChange.h" />
     <ClInclude Include="source\TestEventHandler.hpp" />
+    <ClInclude Include="source\Tests.h" />
     <ClInclude Include="source\texture.h" />
     <ClInclude Include="source\transform.h" />
     <ClInclude Include="source\util.h" />
     <ClInclude Include="stb_image2.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include\imgui\imgui.cpp" />
+    <ClCompile Include="include\imgui\imgui_demo.cpp" />
+    <ClCompile Include="include\imgui\imgui_draw.cpp" />
+    <ClCompile Include="include\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="include\imgui\imgui_impl_sdl.cpp" />
+    <ClCompile Include="include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="source\display.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\mesh.cpp" />
     <ClCompile Include="source\obj_loader.cpp" />
     <ClCompile Include="source\sdltiming.cpp" />
     <ClCompile Include="source\shader.cpp" />
+    <ClCompile Include="source\TestCameraChange.cpp" />
     <ClCompile Include="source\TestEventHandler.cpp" />
+    <ClCompile Include="source\Tests.cpp" />
     <ClCompile Include="source\texture.cpp" />
     <ClCompile Include="stb_image2.c" />
   </ItemGroup>

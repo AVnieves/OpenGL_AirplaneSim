@@ -7,17 +7,33 @@
 struct Camera
 {
 public:
-	Camera(const glm::vec3& pos, float fov, float aspect, float zNear, float zFar)
+	Camera(const glm::vec3& pos, glm::vec3 f, glm::vec3 u, float fov, float aspect, float zNear, float zFar)
+		: forward(f), up(u)
 	{
 		this->pos = pos;
-		this->forward = glm::vec3(0.0f, 0.0f, 1.0f);
-		this->up = glm::vec3(0.0f, 1.0f, 0.0f);
+		this->forward = f;
+		this->up = u;
 		this->projection = glm::perspective(fov, aspect, zNear, zFar);
 	}
 
 	inline glm::mat4 GetViewProjection() const
 	{
 		return projection * glm::lookAt(pos, pos + forward, up);
+	}
+
+	void SetCameraPosition(glm::vec3& pos)
+	{
+		this->pos = pos;
+	}
+
+	void SetCameraUp(glm::vec3 u)
+	{
+		this->up = u;
+	}
+
+	void SetCameraForward(glm::vec3 f)
+	{
+		this->forward = f;
 	}
 
 	//void MoveForward(float amt)

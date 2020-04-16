@@ -46,3 +46,12 @@ void Display::SwapBuffers()
 {
 	SDL_GL_SwapWindow(m_window);
 }
+SDL_Window* Display::GetWindow()
+{
+	return m_window;
+}
+
+SDL_GLContext Display::GetContext()
+{
+	return m_glContext;
+}
