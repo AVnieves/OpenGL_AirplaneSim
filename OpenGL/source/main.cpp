@@ -25,6 +25,8 @@
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_opengl3.h>
 #include <imgui/imgui_impl_sdl.h>
+#include "TestCameraChange.h"
+
 
 
 static const int DISPLAY_WIDTH = 800;
@@ -130,7 +132,7 @@ int main(int argc, char** argv)
 	Shader shader("./res/basicShader");
 	Texture texture("./res/TALTS.jpg");
 	Transform transform;
-	Camera camera(glm::vec3(0.0f, 0.0f, -20.f), glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f,1.f,0.f), 70.0f, (float)DISPLAY_WIDTH / (float)DISPLAY_HEIGHT, 0.1f, 100.0f);
+	Camera camera(glm::vec3(0.0f, 0.0f, -20.f), glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 1.f, 0.f), 70.0f, (float)DISPLAY_WIDTH / (float)DISPLAY_HEIGHT, 0.1f, 100.0f);
 
 	SDL_Event e;
 	bool isRunning = true;
@@ -144,7 +146,7 @@ int main(int argc, char** argv)
 	InputControl* horizontal = new InputControl();
 	InputControl* vertical = new InputControl();
 	InputControl* forward = new InputControl();
-
+	
 	eventHandler.addKeyControl((KeyInputs::KEY_A), *horizontal, 1.f);
 	eventHandler.addKeyControl((KeyInputs::KEY_D), *horizontal, -1.f);
 	eventHandler.addKeyControl((KeyInputs::KEY_W), *vertical, 1.f);
@@ -152,18 +154,18 @@ int main(int argc, char** argv)
 	//eventHandler.addMouseControl((KeyInputs::MOUSE_LEFT_BUTTON), *forward, 1.f);
 	//eventHandler.addMouseControl((KeyInputs::MOUSE_RIGHT_BUTTON), *forward, -1.f);
 
-	// Setup ImGui Context
+		// Setup ImGui Context
 	ImGui::CreateContext();
 	ImGui_ImplSDL2_InitForOpenGL(display.GetWindow(), display.GetContext());
 	ImGui_ImplOpenGL3_Init("#version 130");
 
-	//test::Tests* currentTest = nullptr;
-	//test::TestMenu* testMenu = new test::TestMenu(currentTest);
+	test::Tests* currentTest = nullptr;
+	test::TestMenu* testMenu = new test::TestMenu(currentTest);
+	currentTest = testMenu;
 
 	// add tests here:
-	int buttonState = 0;
-	int prevButtonState = buttonState;
-
+	testMenu->AddTest<test::TestCameraChange>("Test Camera Position");
+	
 	// frame updates
 	unsigned int fps = 0;
 	double lastTime = SDLTiming::getTime();
@@ -175,10 +177,12 @@ int main(int argc, char** argv)
 	float zPos = 0.f;
 	//transform.GetRot()->y = 3.14;
 	transform.GetRot()->x = 3.14;
-	bool incrementCounter = false;
+
 
 	while (isRunning)
 	{
+		display.Clear(0.1f, 0.1f, 0.8f, 1.0f);
+
 		double currentTime = SDLTiming::getTime();
 		double passedTime = currentTime - lastTime;
 		lastTime = currentTime;
@@ -194,64 +198,11 @@ int main(int argc, char** argv)
 		}
 
 
-
-		if (prevButtonState != buttonState || incrementCounter == true)
-		{
-			glm::vec3 pos;
-			glm::vec3 forward;
-			glm::vec3 up;
-			switch (buttonState)
-			{
-			case 0:
-			{
-				forward = glm::vec3(0.f, 0.f, 1.f);
-				up = glm::vec3(0.f, 1.f, 0.f);
-				pos = glm::vec3(0.f, 0.f, -20.f);
-				prevButtonState = buttonState;
-				incrementCounter = false;
-				break;
-			}
-			case 1:
-			{
-				forward = glm::vec3(1.f, 0.f, 0.f);
-				up = glm::vec3(0.f, 0.f, -1.f);
-				pos = glm::vec3(-10.f, 0.f, 0.f);
-				prevButtonState = buttonState;
-				incrementCounter = false;
-				break;
-			}
-			case 2:
-			{
-				forward = glm::vec3(0.f, 1.f, 0.f);
-				up = glm::vec3(0.f, 0.f, -1.f);
-				pos = glm::vec3(0.f, -10.f, 0.f);
-				prevButtonState = buttonState;
-				incrementCounter = false;
-				break;
-			}
-			default:
-				std::cout << "Invalid Button State" << std::endl;
-				break;
-			}
-			camera.SetCameraPosition(pos);
-			camera.SetCameraForward(forward);
-			camera.SetCameraUp(up);
-		}
-
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplSDL2_NewFrame(display.GetWindow());
-		ImGui::NewFrame();
-
 		bool shouldRender = false;
 
-		//if (currentTest)
-		//{
 			while (updateTime >= frameTime)
 			{
-				//currentTest->OnUpdate();
 				processMessages(frameTime, eventHandler, isRunning);
-				//xfloat sinCounter = sinf(counter);
-				//float absSinCounter = abs(sinCounter);
 				xPos += 10.f * frameTime * horizontal->getAmt();
 				yPos += 10.f * frameTime * vertical->getAmt();
 				zPos += 5.f * frameTime * forward->getAmt();
@@ -264,77 +215,76 @@ int main(int argc, char** argv)
 				shouldRender = true;
 			}
 
+			ImGui_ImplOpenGL3_NewFrame();
+			ImGui_ImplSDL2_NewFrame(display.GetWindow());
+			ImGui::NewFrame();
+
+
+			if (currentTest)
 			{
-				ImGui::Begin("hello, World");
-				ImGui::BeginGroup();
-				ImGui::RadioButton("Camera Position Top", &buttonState, 0);
-				ImGui::RadioButton("Camera Position Side", &buttonState, 1);
-				ImGui::RadioButton("Camera Position Behind", &buttonState, 2);
-				ImGui::EndGroup();
-
-				if (
-					ImGui::SliderFloat("X Pos", &xcounter, -10.0f, 10.0f) ||            // Edit 1 float using a slider from 0.0f to 1.0f
-					ImGui::SliderFloat("Y Pos", &ycounter, -10.f, 10.f) ||
-					ImGui::SliderFloat("Z Pos", &zcounter, -20.f, 20.f))
-					incrementCounter = true;
-				//if (ImGui::Button("X Counter Button"))
-				//{
-				//	xcounter++;
-				//	incrementCounter = true;
-				//}
-				//ImGui::SameLine();
-				//ImGui::Text("xcounter = %f", xcounter);
-
-				//if (ImGui::Button("Y Counter Button"))
-				//	ycounter++;
-				//ImGui::SameLine();
-				//ImGui::Text("ycounter = %f", ycounter);
-
-				//if (ImGui::Button("Z Counter Button"))
-				//	zcounter++;
-				//ImGui::SameLine();
-				//ImGui::Text("zcounter = %f", zcounter);
 
 
+				ImGui::Begin("Test");
+
+				if (currentTest != testMenu && ImGui::Button("<-"))
+				{
+					delete currentTest;
+					currentTest = testMenu;
+				}
+				currentTest->OnImGuiRender();
 				ImGui::End();
-			}
 
-			if (shouldRender)
-			{
-				//currentTest->OnRender();
-				//if (currentTest != testMenu && ImGui::Button("<-"))
+				ImGui::Render();
+				ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+				currentTest->OnUpdate();
+
+				if (shouldRender)
+				{
+					shader.Bind();
+					texture.Bind();
+					shader.Update(transform, camera);
+					T38.Draw();
+					display.SwapBuffers();
+					ImGui::Render();
+					ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+				}
+				else
+				{
+					Sleep(1);
+					ImGui::Render();
+					ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+				}
+				//if (shouldRender)
 				//{
-				//	delete currentTest;
-				//	currentTest = testMenu;
+				//	ImGui::Render();
+
+				//	currentTest->OnRender(0.f);
+				//	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+				//	display.SwapBuffers();
+				//	fps++;
 				//}
-				//currentTest->OnImGuiRender();
+				//else
+				//{
+				//	Sleep(1);
+				//	ImGui::Render();
+				//	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+				//}
 
-				display.Clear(0.1f, 0.1f, 0.8f, 1.0f);
-				ImGui::Render();
-				shader.Bind();
-				texture.Bind();
-				shader.Update(transform, camera);
-				T38.Draw();
-				//mesh.Draw();
-				ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-				display.SwapBuffers();
-				fps++;
 			}
-			else
-			{
-				Sleep(1);
-				ImGui::Render();
-				ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-			}
+			//ImGui::Render();
+			//ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		}
+			//delete currentTest;
+			//if (currentTest != testMenu)
+			//	delete testMenu;
 
-
-		//}
-
-	}
-
-	ImGui_ImplOpenGL3_Shutdown();
-	ImGui_ImplSDL2_Shutdown();
-	ImGui::DestroyContext();
-
-	return 0;
+		ImGui_ImplOpenGL3_Shutdown();
+		ImGui_ImplSDL2_Shutdown();
+		ImGui::DestroyContext();
+		return 0;
 }
+
+

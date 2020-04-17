@@ -3,17 +3,20 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "imgui/imgui.h"
+//#include "imgui/imgui.h"
 
 namespace test {
 	class Tests
 	{
 	public:
-		Tests();
-		//virtual ~Tests();
-		//virtual void OnUpdate();
-		//virtual void OnRender();
-		//virtual void OnImGuiRender();
+		Tests(){}
+		virtual ~Tests(){}
+		virtual void OnUpdate(){}
+		virtual void OnRender(float updateTime){}
+		virtual void OnImGuiRender(){}
+
+	private:
+
 
 	};
 
@@ -22,9 +25,9 @@ namespace test {
 	public:
 
 		TestMenu(Tests*& currentTest);
-		//void OnImGuiRender() override;
+		void OnImGuiRender() override;
 		template <typename T>
-		void AddTest(std::string& name)
+		void AddTest(const std::string& name)
 		{
 			std::cout << "Adding Test to list" << std::endl;
 			// use a lambda function to return the template T pased to the function

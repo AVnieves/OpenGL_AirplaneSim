@@ -3,18 +3,18 @@
 
 namespace test
 {
-	//TestMenu::TestMenu(Tests*& currentTest)
-	//	: m_CurrentTest(currentTest)
-	//{
-	//	
-	//}
+	TestMenu::TestMenu(Tests*& currentTest)
+		: m_CurrentTest(currentTest)
+	{
+		
+	}
 
-	//void TestMenu::OnImGuiRender()
-	//{
-	//	for (auto& test : m_Tests)
-	//	{
-	//		if (ImGui::Button(test.first.c_str()))
-	//			m_CurrentTest = test.second();
-	//	}
-	//}
+	void TestMenu::OnImGuiRender()
+	{
+		for (auto& test : m_Tests)
+		{
+			if (ImGui::Button(test.first.c_str()))
+				m_CurrentTest = test.second();
+		}
+	}
 }
