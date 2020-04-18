@@ -39,7 +39,6 @@
     <ClInclude Include="source\obj_loader.h" />
     <ClInclude Include="source\sdltiming.hpp" />
     <ClInclude Include="source\shader.h" />
-    <ClInclude Include="source\TestCameraChange.h" />
     <ClInclude Include="source\TestEventHandler.hpp" />
     <ClInclude Include="source\Tests.h" />
     <ClInclude Include="source\texture.h" />
@@ -55,14 +54,12 @@
     <ClCompile Include="include\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="include\imgui\imgui_impl_sdl.cpp" />
     <ClCompile Include="include\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="SimpleControl.cpp" />
     <ClCompile Include="source\display.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\mesh.cpp" />
     <ClCompile Include="source\obj_loader.cpp" />
     <ClCompile Include="source\sdltiming.cpp" />
     <ClCompile Include="source\shader.cpp" />
-    <ClCompile Include="source\TestCameraChange.cpp" />
     <ClCompile Include="source\TestEventHandler.cpp" />
     <ClCompile Include="source\Tests.cpp" />
     <ClCompile Include="source\texture.cpp" />

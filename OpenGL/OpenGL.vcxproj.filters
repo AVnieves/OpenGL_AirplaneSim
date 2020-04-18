@@ -69,9 +69,6 @@
     <ClInclude Include="source\Tests.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\TestCameraChange.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\imgui\imconfig.h">
       <Filter>Source Files\imgui</Filter>
     </ClInclude>
@@ -134,9 +131,6 @@
     <ClCompile Include="source\Tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\TestCameraChange.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="include\imgui\imgui.cpp">
       <Filter>Source Files\imgui</Filter>
     </ClCompile>
@@ -156,9 +150,6 @@
       <Filter>Source Files\imgui</Filter>
     </ClCompile>
     <ClCompile Include="TestFrameWork.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SimpleControl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

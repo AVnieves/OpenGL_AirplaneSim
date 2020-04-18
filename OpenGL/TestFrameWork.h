@@ -26,7 +26,7 @@ namespace test
 	private:
 		int m_ButtonState;
 		int m_PrevButtonState;
-
+		float m_CameraPitch;
 		glm::vec3 pos;
 		glm::vec3 forward;
 		glm::vec3 up;

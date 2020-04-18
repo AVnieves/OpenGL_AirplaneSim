@@ -25,7 +25,6 @@
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_opengl3.h>
 #include <imgui/imgui_impl_sdl.h>
-#include "TestCameraChange.h"
 #include "../TestFrameWork.h"
 
 
@@ -69,7 +68,6 @@ void processMessages(double delta, TestEventHandler& eventHandler, bool& isAppRu
 		};
 	}
 }
-
 
 int main(int argc, char** argv)
 {
@@ -147,13 +145,15 @@ int main(int argc, char** argv)
 	InputControl* horizontal = new InputControl();
 	InputControl* vertical = new InputControl();
 	//InputControl* forward = new InputControl();
-	//
+
 	eventHandler.addKeyControl((KeyInputs::KEY_A), *horizontal, 1.f);
 	eventHandler.addKeyControl((KeyInputs::KEY_D), *horizontal, -1.f);
 	eventHandler.addKeyControl((KeyInputs::KEY_W), *vertical, 1.f);
 	eventHandler.addKeyControl((KeyInputs::KEY_S), *vertical, -1.f);
-	//eventHandler.addMouseControl((KeyInputs::MOUSE_LEFT_BUTTON), *forward, 1.f);
-	//eventHandler.addMouseControl((KeyInputs::MOUSE_RIGHT_BUTTON), *forward, -1.f);
+
+	SimpleControl movementControl;
+	movementControl.AddMovementControls(glm::vec3(1.f, 0.f, 0.f), horizontal);
+	movementControl.AddMovementControls(glm::vec3(0.f, 1.f, 0.f), vertical);
 
 	// Setup ImGui Context
 	ImGui::CreateContext();
@@ -165,8 +165,8 @@ int main(int argc, char** argv)
 	currentTest = testMenu;
 
 	// add tests here:
-	testMenu->AddTest<test::TestCameraChange>("Test Camera Position");
-	testMenu->AddTest<test::TestFrameWork>("TestFrameWork");
+	//testMenu->AddTest<test::TestCameraChange>("Test Camera Position");
+	testMenu->AddTest<test::TestFrameWork>("Test Camera Postion");
 
 	// frame updates
 	unsigned int fps = 0;
@@ -211,11 +211,7 @@ int main(int argc, char** argv)
 			while (updateTime >= frameTime)
 			{
 				processMessages(updateTime, eventHandler, isRunning);
-				xPos += 10.f * frameTime * horizontal->getAmt();
-				yPos += 10.f * frameTime * vertical->getAmt();
-
-				transform.GetPos()->x = xPos;
-				transform.GetPos()->y = yPos;
+				movementControl.UpdateTransform(transform);
 				currentTest->UpdateTransform(transform);
 				currentTest->OnUpdate(updateTime, isRunning);
 				updateTime -= frameTime;

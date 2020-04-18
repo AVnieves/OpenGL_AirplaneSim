@@ -23,6 +23,7 @@ test::TestFrameWork::TestFrameWork()
 	m_ButtonState = 0;
 	m_PrevButtonState = m_ButtonState;
 	//m_Transform.GetRot()->y = 3.14;
+	m_CameraPitch = 0;
 }
 
 test::TestFrameWork::~TestFrameWork()
@@ -32,13 +33,6 @@ test::TestFrameWork::~TestFrameWork()
 
 void test::TestFrameWork::OnUpdate(double& updateTime, bool& isRunning)
 {
-	//float frameTime = 1.0 / 60.0;
-	// process keyboard inputs
-	//bool isRunning;
-
-	//m_SimpleControl.UpdatePosition(m_Transform, isRunning);
-	//updateTime -= frameTime;
-
 
 	if (m_PrevButtonState != m_ButtonState)
 	{
@@ -76,7 +70,9 @@ void test::TestFrameWork::OnUpdate(double& updateTime, bool& isRunning)
 		m_Camera.SetCameraForward(forward);
 		m_Camera.SetCameraUp(up);
 	}
-	//return isRunning;
+	m_Camera.SetCameraPosition(pos);
+	m_Camera.SetCameraForward(forward);
+	m_Camera.SetCameraUp(up);
 }
 
 void test::TestFrameWork::OnImGuiRender()
@@ -85,6 +81,12 @@ void test::TestFrameWork::OnImGuiRender()
 	ImGui::RadioButton("Camera Position Top", &m_ButtonState, 0);
 	ImGui::RadioButton("Camera Position Side", &m_ButtonState, 1);
 	ImGui::RadioButton("Camera Position Behind", &m_ButtonState, 2);
+	ImGui::SliderFloat2("Camera Position x, y", &pos.x, -10, 10);
+	ImGui::SliderFloat("Camera Position z", &pos.z, -40, 0);
+	ImGui::SliderFloat2("Camera Forward", &forward.x, -10, 10);
+	ImGui::SliderFloat("Camera Forward z", &forward.z, -10, 10);
+	//ImGui::SliderFloat2("Camera Up", &up.x, -10, 10);
+	//ImGui::SliderFloat("Camera Up", &up.z, -10, 10);
 	ImGui::EndGroup();
 }
 
