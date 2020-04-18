@@ -96,6 +96,12 @@
     <ClInclude Include="include\imgui\imgui_impl_sdl.h">
       <Filter>Source Files\imgui</Filter>
     </ClInclude>
+    <ClInclude Include="TestFrameWork.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleControl.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\display.cpp">
@@ -148,6 +154,12 @@
     </ClCompile>
     <ClCompile Include="include\imgui\imgui_impl_sdl.cpp">
       <Filter>Source Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="TestFrameWork.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleControl.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

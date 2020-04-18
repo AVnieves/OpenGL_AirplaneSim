@@ -5,6 +5,8 @@
 #include "IApplicationEventHandler.h"
 #include "InputControl.hpp"
 
+typedef std::map <int, std::vector<std::pair< float, InputControl& >>> Events;
+
 class TestEventHandler : public IApplicationEventHandler
 {
 
@@ -23,14 +25,15 @@ public:
 	void addKeyControl(int keyCode, InputControl& i, float weight = 1.f);
 	void addMouseControl(int keyCode, InputControl& i, float weight = 1.f);
 	void updateInput(int inputCode, float dir, bool isRepeat);
+	//Events getInputEvents();
 
 
 
 private:
 	std::vector <std::pair<int, int>> testVector;
 	std::vector <std::pair<InputControl, float>> testVector2;
-	std::map <int, std::vector<std::pair< float, InputControl& >>> inputEvents;
-
+	//std::map <int, std::vector<std::pair< float, InputControl& >>> inputEvents;
+	Events inputEvents;
 };
 
 inline TestEventHandler::TestEventHandler()

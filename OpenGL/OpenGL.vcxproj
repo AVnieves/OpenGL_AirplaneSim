@@ -27,6 +27,7 @@
     <ClInclude Include="include\imgui\imstb_rectpack.h" />
     <ClInclude Include="include\imgui\imstb_textedit.h" />
     <ClInclude Include="include\imgui\imstb_truetype.h" />
+    <ClInclude Include="SimpleControl.h" />
     <ClInclude Include="source\camera.h" />
     <ClInclude Include="source\debugTimer.h" />
     <ClInclude Include="source\display.h" />
@@ -45,6 +46,7 @@
     <ClInclude Include="source\transform.h" />
     <ClInclude Include="source\util.h" />
     <ClInclude Include="stb_image2.h" />
+    <ClInclude Include="TestFrameWork.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\imgui\imgui.cpp" />
@@ -53,6 +55,7 @@
     <ClCompile Include="include\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="include\imgui\imgui_impl_sdl.cpp" />
     <ClCompile Include="include\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="SimpleControl.cpp" />
     <ClCompile Include="source\display.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\mesh.cpp" />
@@ -64,6 +67,7 @@
     <ClCompile Include="source\Tests.cpp" />
     <ClCompile Include="source\texture.cpp" />
     <ClCompile Include="stb_image2.c" />
+    <ClCompile Include="TestFrameWork.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\basicShader.fs" />

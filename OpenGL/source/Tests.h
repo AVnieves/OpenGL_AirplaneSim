@@ -3,6 +3,9 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "TestEventHandler.hpp"
+#include "transform.h"
+
 //#include "imgui/imgui.h"
 
 namespace test {
@@ -11,13 +14,11 @@ namespace test {
 	public:
 		Tests(){}
 		virtual ~Tests(){}
-		virtual void OnUpdate(){}
+		virtual void OnUpdate(double& updateTime, bool& isRunning) {}
 		virtual void OnRender(float updateTime){}
 		virtual void OnImGuiRender(){}
-
-	private:
-
-
+		virtual void OnEventUpdate(TestEventHandler& e) {}
+		virtual void UpdateTransform(Transform& t) {}
 	};
 
 	class TestMenu : public Tests

@@ -19,9 +19,12 @@ namespace test {
 	public:
 		TestCameraChange();
 		~TestCameraChange();
-		void OnUpdate();
+		void OnUpdate(double& updateTime, bool& isRunning);
 		void OnRender(float updateTime);
 		void OnImGuiRender();
+		void OnEventUpdate();
+		void UpdateTransform(Transform& t);
+
 	private:
 		//glm::mat4 projection;
 		//glm::vec3 pos;
@@ -29,13 +32,6 @@ namespace test {
 		//glm::vec3 up;
 		int buttonState, prevButtonState;
 		bool posUpdate;
-		bool m_ShouldRender;
-		float m_UpdateTime;
-		float xPos;
-		float yPos;
-		float zPos;
-		float lastTime;
-		float frameCounter; 
 
 		//InputControl* horizontal;
 		//InputControl* vertical;

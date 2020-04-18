@@ -26,6 +26,7 @@
 #include <imgui/imgui_impl_opengl3.h>
 #include <imgui/imgui_impl_sdl.h>
 #include "TestCameraChange.h"
+#include "../TestFrameWork.h"
 
 
 
@@ -126,27 +127,27 @@ int main(int argc, char** argv)
 							  23, 22, 20
 	};
 
-	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]));
-	Mesh T38("./res/TAL16OBJ.obj");
+	//Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]));
+	//Mesh T38("./res/TAL16OBJ.obj");
 
-	Shader shader("./res/basicShader");
-	Texture texture("./res/TALTS.jpg");
+	//Shader shader("./res/basicShader");
+	//Texture texture("./res/TALTS.jpg");
 	Transform transform;
-	Camera camera(glm::vec3(0.0f, 0.0f, -20.f), glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 1.f, 0.f), 70.0f, (float)DISPLAY_WIDTH / (float)DISPLAY_HEIGHT, 0.1f, 100.0f);
+	//Camera camera(glm::vec3(0.0f, 0.0f, -20.f), glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 1.f, 0.f), 70.0f, (float)DISPLAY_WIDTH / (float)DISPLAY_HEIGHT, 0.1f, 100.0f);
 
-	SDL_Event e;
+	//SDL_Event e;
 	bool isRunning = true;
 	float xcounter = 0.0f;
 	float ycounter = 0.0f;
 	float zcounter = 0.0f;
 
 	// control
-	float amt = 0.f;
+	//float amt = 0.f;
 	TestEventHandler eventHandler;
 	InputControl* horizontal = new InputControl();
 	InputControl* vertical = new InputControl();
-	InputControl* forward = new InputControl();
-	
+	//InputControl* forward = new InputControl();
+	//
 	eventHandler.addKeyControl((KeyInputs::KEY_A), *horizontal, 1.f);
 	eventHandler.addKeyControl((KeyInputs::KEY_D), *horizontal, -1.f);
 	eventHandler.addKeyControl((KeyInputs::KEY_W), *vertical, 1.f);
@@ -154,7 +155,7 @@ int main(int argc, char** argv)
 	//eventHandler.addMouseControl((KeyInputs::MOUSE_LEFT_BUTTON), *forward, 1.f);
 	//eventHandler.addMouseControl((KeyInputs::MOUSE_RIGHT_BUTTON), *forward, -1.f);
 
-		// Setup ImGui Context
+	// Setup ImGui Context
 	ImGui::CreateContext();
 	ImGui_ImplSDL2_InitForOpenGL(display.GetWindow(), display.GetContext());
 	ImGui_ImplOpenGL3_Init("#version 130");
@@ -165,19 +166,21 @@ int main(int argc, char** argv)
 
 	// add tests here:
 	testMenu->AddTest<test::TestCameraChange>("Test Camera Position");
-	
+	testMenu->AddTest<test::TestFrameWork>("TestFrameWork");
+
 	// frame updates
 	unsigned int fps = 0;
 	double lastTime = SDLTiming::getTime();
 	double frameCounter = 0.0;
 	double updateTime = 1.0;
+	double* updateTimePtr = &updateTime;
+	bool* isRunningPtr = &isRunning;
 	float frameTime = 1.0 / 60.0;
 	float xPos = 0.f;
 	float yPos = 0.f;
 	float zPos = 0.f;
 	//transform.GetRot()->y = 3.14;
 	transform.GetRot()->x = 3.14;
-
 
 	while (isRunning)
 	{
@@ -197,94 +200,57 @@ int main(int argc, char** argv)
 			fps = 0;
 		}
 
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplSDL2_NewFrame(display.GetWindow());
+		ImGui::NewFrame();
 
-		bool shouldRender = false;
+		if (currentTest)
+		{
+			bool shouldRender = false;
 
 			while (updateTime >= frameTime)
 			{
-				processMessages(frameTime, eventHandler, isRunning);
+				processMessages(updateTime, eventHandler, isRunning);
 				xPos += 10.f * frameTime * horizontal->getAmt();
 				yPos += 10.f * frameTime * vertical->getAmt();
-				zPos += 5.f * frameTime * forward->getAmt();
+
 				transform.GetPos()->x = xPos;
 				transform.GetPos()->y = yPos;
-				transform.GetPos()->z = zPos;
-
-				amt += (float)frameTime / 2.f;
+				currentTest->UpdateTransform(transform);
+				currentTest->OnUpdate(updateTime, isRunning);
 				updateTime -= frameTime;
 				shouldRender = true;
 			}
 
-			ImGui_ImplOpenGL3_NewFrame();
-			ImGui_ImplSDL2_NewFrame(display.GetWindow());
-			ImGui::NewFrame();
-
-
-			if (currentTest)
+			ImGui::Begin("Test");
+			if (currentTest != testMenu && ImGui::Button("<-"))
 			{
+				delete currentTest;
+				currentTest = testMenu;
+			}
+			currentTest->OnImGuiRender();
+			ImGui::End();
 
+			ImGui::Render();
+			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-				ImGui::Begin("Test");
-
-				if (currentTest != testMenu && ImGui::Button("<-"))
-				{
-					delete currentTest;
-					currentTest = testMenu;
-				}
-				currentTest->OnImGuiRender();
-				ImGui::End();
-
+			if (shouldRender)
+			{
+				currentTest->OnRender(updateTime);
+				display.SwapBuffers();
 				ImGui::Render();
 				ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-				currentTest->OnUpdate();
-
-				if (shouldRender)
-				{
-					shader.Bind();
-					texture.Bind();
-					shader.Update(transform, camera);
-					T38.Draw();
-					display.SwapBuffers();
-					ImGui::Render();
-					ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-				}
-				else
-				{
-					Sleep(1);
-					ImGui::Render();
-					ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-				}
-				//if (shouldRender)
-				//{
-				//	ImGui::Render();
-
-				//	currentTest->OnRender(0.f);
-				//	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-				//	display.SwapBuffers();
-				//	fps++;
-				//}
-				//else
-				//{
-				//	Sleep(1);
-				//	ImGui::Render();
-				//	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-				//}
-
 			}
-			//ImGui::Render();
-			//ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+			else
+			{
+				Sleep(1);
+				ImGui::Render();
+				ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+			}
 		}
-			//delete currentTest;
-			//if (currentTest != testMenu)
-			//	delete testMenu;
-
-		ImGui_ImplOpenGL3_Shutdown();
-		ImGui_ImplSDL2_Shutdown();
-		ImGui::DestroyContext();
-		return 0;
+	}
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplSDL2_Shutdown();
+	ImGui::DestroyContext();
+	return 0;
 }
-
-

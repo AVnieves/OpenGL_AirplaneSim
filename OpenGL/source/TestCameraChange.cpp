@@ -9,38 +9,38 @@
 #include <time.h>
 #include <Windows.h>
 
-void processMessages(double delta, TestEventHandler& eventHandler)
-{
-	SDL_Event e;
-	(void)delta;
-
-	while (SDL_PollEvent(&e)) {
-		std::cout << "Type: " << e.type << std::endl;
-		switch (e.type) {
-		case SDL_KEYDOWN:
-			eventHandler.onKeyDown(e.key.keysym.scancode, e.key.repeat != 0);
-			std::cout << "KEYDOWN: " << e.type << std::endl;
-			break;
-		case SDL_KEYUP:
-			eventHandler.onKeyUp(e.key.keysym.scancode, e.key.repeat != 0);
-			std::cout << "KEYUP: " << e.type << std::endl;
-			break;
-		case SDL_MOUSEBUTTONDOWN:
-			eventHandler.onMouseDown(e.button.button, 1);
-			std::cout << "MOUSEDOWN: " << e.type << std::endl;
-			break;
-		case SDL_MOUSEBUTTONUP:
-			eventHandler.onMouseUp(e.button.button, 1);
-			std::cout << "MOUSEUP: " << e.type << std::endl;
-			break;
-			//case SDL_MOUSEMOTION:
-				//eventHandler.onMouseMove(e.motion.x, e.motion.y, e.motion.xrel, e.motion.yrel);
-				//break;
-		default:
-			break;
-		};
-	}
-}
+//void processMessages(double delta, TestEventHandler& eventHandler)
+//{
+//	SDL_Event e;
+//	(void)delta;
+//
+//	while (SDL_PollEvent(&e)) {
+//		std::cout << "Type: " << e.type << std::endl;
+//		switch (e.type) {
+//		case SDL_KEYDOWN:
+//			eventHandler.onKeyDown(e.key.keysym.scancode, e.key.repeat != 0);
+//			std::cout << "KEYDOWN: " << e.type << std::endl;
+//			break;
+//		case SDL_KEYUP:
+//			eventHandler.onKeyUp(e.key.keysym.scancode, e.key.repeat != 0);
+//			std::cout << "KEYUP: " << e.type << std::endl;
+//			break;
+//		case SDL_MOUSEBUTTONDOWN:
+//			eventHandler.onMouseDown(e.button.button, 1);
+//			std::cout << "MOUSEDOWN: " << e.type << std::endl;
+//			break;
+//		case SDL_MOUSEBUTTONUP:
+//			eventHandler.onMouseUp(e.button.button, 1);
+//			std::cout << "MOUSEUP: " << e.type << std::endl;
+//			break;
+//			//case SDL_MOUSEMOTION:
+//				//eventHandler.onMouseMove(e.motion.x, e.motion.y, e.motion.xrel, e.motion.yrel);
+//				//break;
+//		default:
+//			break;
+//		};
+//	}
+//}
 
 test::TestCameraChange::TestCameraChange()
 	//: m_Mesh("./res/TAL16OBJ.obj"), m_Shader("./res/basicShader"), m_Texture("./res/TALTS.jpg"),
@@ -96,8 +96,10 @@ void test::TestCameraChange::OnImGuiRender()
 	ImGui::EndGroup();
 }
 
-void test::TestCameraChange::OnUpdate()
+void test::TestCameraChange::OnUpdate(double& updateTime, bool& isRunning)
 {
+	double frameTime = 1.0 / 60.0;
+	updateTime -= frameTime;
 	//double frameTime = 1.0 / 60.0;
 	//double currentTime = SDLTiming::getTime();
 	//double passedTime = currentTime - lastTime;
@@ -181,4 +183,15 @@ void test::TestCameraChange::OnUpdate()
 		//m_Camera.SetCameraForward(forward);
 		//m_Camera.SetCameraUp(up);
 	}
+	//return true;
+}
+
+void test::TestCameraChange::OnEventUpdate()
+{
+
+}
+
+void test::TestCameraChange::UpdateTransform(Transform& t)
+{
+
 }

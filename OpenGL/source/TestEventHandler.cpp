@@ -70,3 +70,8 @@ void TestEventHandler::updateInput(int inputCode, float dir, bool isRepeat)
 	
 }
 
+//Events TestEventHandler::getInputEvents()
+//{
+//	return inputEvents;
+//}
+
