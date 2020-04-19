@@ -10,6 +10,7 @@
 struct Vertex
 {
 public:
+	Vertex() {}
 	Vertex(const glm::vec3& pos, const glm::vec2& texCoord, const glm::vec3& normal)
 	{
 		this->pos = pos;
@@ -20,6 +21,10 @@ public:
 	glm::vec3* GetPos() { return &pos; }
 	glm::vec2* GetTexCoord() { return &texCoord; }
 	glm::vec3* GetNormal() { return &normal; }
+
+	void SetPos(const glm::vec3& pos) { this->pos = pos; }
+	void SetTexCoord(const glm::vec2& texCoord) { this->texCoord = texCoord; }
+	void SetNormal(const glm::vec3& normal) { this->normal = normal; }
 
 private:
 	glm::vec3 pos;
@@ -38,17 +43,19 @@ enum MeshBufferPositions
 class Mesh
 {
 public:
+	Mesh() {}
     Mesh(const std::string& fileName);
 	Mesh(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices);
 
 	void Draw();
-
+	void GenerateMesh(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices);
 	virtual ~Mesh();
 protected:
 private:
 	static const unsigned int NUM_BUFFERS = 4;
-	void operator=(const Mesh& mesh) {}
+
 	Mesh(const Mesh& mesh) {}
+	void operator=(const Mesh& mesh) {}
 
     void InitMesh(const IndexedModel& model);
 

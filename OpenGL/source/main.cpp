@@ -26,8 +26,7 @@
 #include <imgui/imgui_impl_opengl3.h>
 #include <imgui/imgui_impl_sdl.h>
 #include "../TestFrameWork.h"
-
-
+#include "../TestTexture.h"
 
 static const int DISPLAY_WIDTH = 800;
 static const int DISPLAY_HEIGHT = 600;
@@ -80,49 +79,49 @@ int main(int argc, char** argv)
 		Vertex(glm::vec3(1, 1, -1), glm::vec2(0, 1), glm::vec3(0, 0, -1)),
 		Vertex(glm::vec3(1, -1, -1), glm::vec2(1, 1), glm::vec3(0, 0, -1)),
 
-		Vertex(glm::vec3(-1, -1, 1), glm::vec2(1, 0), glm::vec3(0, 0, 1)),
-		Vertex(glm::vec3(-1, 1, 1), glm::vec2(0, 0), glm::vec3(0, 0, 1)),
-		Vertex(glm::vec3(1, 1, 1), glm::vec2(0, 1), glm::vec3(0, 0, 1)),
-		Vertex(glm::vec3(1, -1, 1), glm::vec2(1, 1), glm::vec3(0, 0, 1)),
+		//Vertex(glm::vec3(-1, -1, 1), glm::vec2(1, 0), glm::vec3(0, 0, 1)),
+		//Vertex(glm::vec3(-1, 1, 1), glm::vec2(0, 0), glm::vec3(0, 0, 1)),
+		//Vertex(glm::vec3(1, 1, 1), glm::vec2(0, 1), glm::vec3(0, 0, 1)),
+		//Vertex(glm::vec3(1, -1, 1), glm::vec2(1, 1), glm::vec3(0, 0, 1)),
 
-		Vertex(glm::vec3(-1, -1, -1), glm::vec2(0, 1), glm::vec3(0, -1, 0)),
-		Vertex(glm::vec3(-1, -1, 1), glm::vec2(1, 1), glm::vec3(0, -1, 0)),
-		Vertex(glm::vec3(1, -1, 1), glm::vec2(1, 0), glm::vec3(0, -1, 0)),
-		Vertex(glm::vec3(1, -1, -1), glm::vec2(0, 0), glm::vec3(0, -1, 0)),
+		//Vertex(glm::vec3(-1, -1, -1), glm::vec2(0, 1), glm::vec3(0, -1, 0)),
+		//Vertex(glm::vec3(-1, -1, 1), glm::vec2(1, 1), glm::vec3(0, -1, 0)),
+		//Vertex(glm::vec3(1, -1, 1), glm::vec2(1, 0), glm::vec3(0, -1, 0)),
+		//Vertex(glm::vec3(1, -1, -1), glm::vec2(0, 0), glm::vec3(0, -1, 0)),
 
-		Vertex(glm::vec3(-1, 1, -1), glm::vec2(0, 1), glm::vec3(0, 1, 0)),
-		Vertex(glm::vec3(-1, 1, 1), glm::vec2(1, 1), glm::vec3(0, 1, 0)),
-		Vertex(glm::vec3(1, 1, 1), glm::vec2(1, 0), glm::vec3(0, 1, 0)),
-		Vertex(glm::vec3(1, 1, -1), glm::vec2(0, 0), glm::vec3(0, 1, 0)),
+		//Vertex(glm::vec3(-1, 1, -1), glm::vec2(0, 1), glm::vec3(0, 1, 0)),
+		//Vertex(glm::vec3(-1, 1, 1), glm::vec2(1, 1), glm::vec3(0, 1, 0)),
+		//Vertex(glm::vec3(1, 1, 1), glm::vec2(1, 0), glm::vec3(0, 1, 0)),
+		//Vertex(glm::vec3(1, 1, -1), glm::vec2(0, 0), glm::vec3(0, 1, 0)),
 
-		Vertex(glm::vec3(-1, -1, -1), glm::vec2(1, 1), glm::vec3(-1, 0, 0)),
-		Vertex(glm::vec3(-1, -1, 1), glm::vec2(1, 0), glm::vec3(-1, 0, 0)),
-		Vertex(glm::vec3(-1, 1, 1), glm::vec2(0, 0), glm::vec3(-1, 0, 0)),
-		Vertex(glm::vec3(-1, 1, -1), glm::vec2(0, 1), glm::vec3(-1, 0, 0)),
+		//Vertex(glm::vec3(-1, -1, -1), glm::vec2(1, 1), glm::vec3(-1, 0, 0)),
+		//Vertex(glm::vec3(-1, -1, 1), glm::vec2(1, 0), glm::vec3(-1, 0, 0)),
+		//Vertex(glm::vec3(-1, 1, 1), glm::vec2(0, 0), glm::vec3(-1, 0, 0)),
+		//Vertex(glm::vec3(-1, 1, -1), glm::vec2(0, 1), glm::vec3(-1, 0, 0)),
 
-		Vertex(glm::vec3(1, -1, -1), glm::vec2(1, 1), glm::vec3(1, 0, 0)),
-		Vertex(glm::vec3(1, -1, 1), glm::vec2(1, 0), glm::vec3(1, 0, 0)),
-		Vertex(glm::vec3(1, 1, 1), glm::vec2(0, 0), glm::vec3(1, 0, 0)),
-		Vertex(glm::vec3(1, 1, -1), glm::vec2(0, 1), glm::vec3(1, 0, 0)),
+		//Vertex(glm::vec3(1, -1, -1), glm::vec2(1, 1), glm::vec3(1, 0, 0)),
+		//Vertex(glm::vec3(1, -1, 1), glm::vec2(1, 0), glm::vec3(1, 0, 0)),
+		//Vertex(glm::vec3(1, 1, 1), glm::vec2(0, 0), glm::vec3(1, 0, 0)),
+		//Vertex(glm::vec3(1, 1, -1), glm::vec2(0, 1), glm::vec3(1, 0, 0)),
 	};
 
 	unsigned int indices[] = { 0, 1, 2,
 							  0, 2, 3,
 
-							  6, 5, 4,
-							  7, 6, 4,
+							  //6, 5, 4,
+							  //7, 6, 4,
 
-							  10, 9, 8,
-							  11, 10, 8,
+							  //10, 9, 8,
+							  //11, 10, 8,
 
-							  12, 13, 14,
-							  12, 14, 15,
+							  //12, 13, 14,
+							  //12, 14, 15,
 
-							  16, 17, 18,
-							  16, 18, 19,
+							  //16, 17, 18,
+							  //16, 18, 19,
 
-							  22, 21, 20,
-							  23, 22, 20
+							  //22, 21, 20,
+							  //23, 22, 20
 	};
 
 	//Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]));
@@ -155,6 +154,29 @@ int main(int argc, char** argv)
 	movementControl.AddMovementControls(glm::vec3(1.f, 0.f, 0.f), horizontal);
 	movementControl.AddMovementControls(glm::vec3(0.f, 1.f, 0.f), vertical);
 
+
+	//InputControl* roll = new InputControl();
+	//InputControl* pitch = new InputControl();
+	//InputControl* yaw = new InputControl();
+
+	//eventHandler.addKeyControl((KeyInputs::KEY_W), *pitch, 1.f);
+	//eventHandler.addKeyControl((KeyInputs::KEY_S), *pitch, -1.f);
+	//eventHandler.addKeyControl((KeyInputs::KEY_D), *yaw, 1.f);
+	//eventHandler.addKeyControl((KeyInputs::KEY_A), *yaw, -1.f);
+
+	//eventHandler.addMouseControl((KeyInputs::MOUSE_LEFT_BUTTON), *roll, -1.f);
+	//eventHandler.addMouseControl((KeyInputs::MOUSE_RIGHT_BUTTON), *roll, 1.f);
+
+	//SimpleControl movementControl;
+	//
+	//glm::vec3 pitchWeight = glm::vec3(0.f, 1.f, 1.f);
+	//glm::vec3 yawWeight = glm::vec3(1.f, 1.f, 0.f);
+	//glm::vec3 rollWeight = glm::vec3(1.f, 0.f, 1.f);
+
+	//movementControl.AddMovementControls(pitchWeight, pitch);
+	//movementControl.AddMovementControls(yawWeight, yaw);
+	//movementControl.AddMovementControls(rollWeight, roll);
+
 	// Setup ImGui Context
 	ImGui::CreateContext();
 	ImGui_ImplSDL2_InitForOpenGL(display.GetWindow(), display.GetContext());
@@ -165,9 +187,8 @@ int main(int argc, char** argv)
 	currentTest = testMenu;
 
 	// add tests here:
-	//testMenu->AddTest<test::TestCameraChange>("Test Camera Position");
 	testMenu->AddTest<test::TestFrameWork>("Test Camera Postion");
-
+	testMenu->AddTest<test::TestTexture>("Test Texture Plane");
 	// frame updates
 	unsigned int fps = 0;
 	double lastTime = SDLTiming::getTime();

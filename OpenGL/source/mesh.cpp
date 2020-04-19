@@ -42,6 +42,23 @@ void Mesh::InitMesh(const IndexedModel& model)
 	glBindVertexArray(0);
 }
 
+void Mesh::GenerateMesh(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices)
+{
+	IndexedModel model;
+
+	for (unsigned int i = 0; i < numVertices; i++)
+	{
+		model.positions.push_back(*vertices[i].GetPos());
+		model.texCoords.push_back(*vertices[i].GetTexCoord());
+		model.normals.push_back(*vertices[i].GetNormal());
+	}
+
+	for (unsigned int i = 0; i < numIndices; i++)
+		model.indices.push_back(indices[i]);
+
+	InitMesh(model);
+}
+
 Mesh::Mesh(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices)
 {
     IndexedModel model;
@@ -58,6 +75,11 @@ Mesh::Mesh(Vertex* vertices, unsigned int numVertices, unsigned int* indices, un
 
     InitMesh(model);
 }
+//
+//void Mesh::operator=(const Mesh& mesh)
+//{
+//
+//}
 
 Mesh::~Mesh()
 {

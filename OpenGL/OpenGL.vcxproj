@@ -46,6 +46,7 @@
     <ClInclude Include="source\util.h" />
     <ClInclude Include="stb_image2.h" />
     <ClInclude Include="TestFrameWork.h" />
+    <ClInclude Include="TestTexture.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\imgui\imgui.cpp" />
@@ -65,6 +66,7 @@
     <ClCompile Include="source\texture.cpp" />
     <ClCompile Include="stb_image2.c" />
     <ClCompile Include="TestFrameWork.cpp" />
+    <ClCompile Include="TestTexture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\basicShader.fs" />
