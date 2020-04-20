@@ -102,6 +102,12 @@
     <ClInclude Include="TestTexture.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="terrain.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TestTextureObject.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\display.cpp">
@@ -156,6 +162,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TestTexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="terrain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestTextureObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
