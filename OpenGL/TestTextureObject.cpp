@@ -5,7 +5,7 @@
 #include "imgui/imgui.h"
 #include <imgui/imgui_impl_opengl3.h>
 #include <imgui/imgui_impl_sdl.h>
-
+#include "CameraControl.h"
 
 test::TestTextureObject::TestTextureObject()
 	: m_Mesh("./res/TAL16OBJ.obj"), m_Shader("./res/basicShader"), m_Texture("./res/TALTS.jpg"),
@@ -14,7 +14,8 @@ test::TestTextureObject::TestTextureObject()
 {
 	forward = glm::vec3(1.f, 0.f, 0.f);
 	up = glm::vec3(0.f, 0.f, -1.f);
-	pos = glm::vec3(0.f, 0.f, -20.f);	
+	//pos = glm::vec3(0.f, 0.f, -20.f);	
+	pos = glm::vec3(0.f, 0.f, -1.75f);
 
 	m_Camera.SetCameraPosition(pos);
 	m_Camera.SetCameraForward(forward);
@@ -93,8 +94,8 @@ void test::TestTextureObject::OnImGuiRender()
 void test::TestTextureObject::OnRender(float updateTime)
 {
 	Transform t;
-
-	m_Terrain.Draw(m_Camera,t);
+	
+	//m_Terrain.Draw(m_Camera,t);
 	m_Shader.Bind();
 	m_Texture.Bind();
 	m_Shader.Update(m_Transform, m_Camera);
@@ -115,5 +116,12 @@ void test::TestTextureObject::OnEventUpdate(TestEventHandler& eventHandler)
 void test::TestTextureObject::UpdateTransform(Transform& t)
 {
 	m_Transform = t;
+}
+
+void test::TestTextureObject::UpdateCamera(Camera& c)
+{
+	//m_Camera = c;
+	pos = *c.GetPos();
+
 }
 

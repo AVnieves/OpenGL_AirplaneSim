@@ -36,6 +36,20 @@ public:
 		this->forward = f;
 	}
 
+	inline glm::vec3* GetPos()
+	{
+		return &pos;
+	}
+
+	inline glm::vec3* GetForward()
+	{
+		return &forward;
+	}
+
+	inline glm::vec3* GetUp()
+	{
+		return &up;
+	}
 	void MoveForward(float amt)
 	{
 		pos += forward * amt;

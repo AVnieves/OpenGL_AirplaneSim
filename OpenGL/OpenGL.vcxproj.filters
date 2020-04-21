@@ -108,6 +108,9 @@
     <ClInclude Include="TestTextureObject.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="CameraControl.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\display.cpp">

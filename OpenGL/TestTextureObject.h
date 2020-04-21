@@ -22,7 +22,7 @@ namespace test
 		void OnRender(float updateTime);
 		void OnEventUpdate(TestEventHandler& eventHandler);
 		void UpdateTransform(Transform& t);
-		//void UpdateCamera(Camera& c);
+		void UpdateCamera(Camera& c);
 	private:
 		int m_ButtonState;
 		int m_PrevButtonState;

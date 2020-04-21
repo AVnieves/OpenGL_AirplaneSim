@@ -32,9 +32,9 @@ public:
 			yPos = t.GetPos()->y;
 			zPos = t.GetPos()->z;
 
-			xPos += movement[i].first.x * 10.0 * frameTime * movement[i].second->getAmt();
+			xPos += movement[i].first.x * 1.0 * frameTime * movement[i].second->getAmt();
 			t.GetPos()->x = xPos;
-			yPos += movement[i].first.y * 10.0 * frameTime * movement[i].second->getAmt();
+			yPos += movement[i].first.y * 1.0 * frameTime * movement[i].second->getAmt();
 			t.GetPos()->y = yPos;
 			zPos += movement[i].first.z * 10.0 * frameTime * movement[i].second->getAmt();
 			t.GetPos()->z = zPos;

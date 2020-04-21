@@ -28,6 +28,7 @@
 #include "../TestFrameWork.h"
 #include "../TestTexture.h"
 #include "../TestTextureObject.h"
+#include "../CameraControl.h"
 
 static const int DISPLAY_WIDTH = 800;
 static const int DISPLAY_HEIGHT = 600;
@@ -79,7 +80,7 @@ int main(int argc, char** argv)
 	//Shader shader("./res/basicShader");
 	//Texture texture("./res/TALTS.jpg");
 	Transform transform;
-	//Camera camera(glm::vec3(0.0f, 0.0f, -20.f), glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 1.f, 0.f), 70.0f, (float)DISPLAY_WIDTH / (float)DISPLAY_HEIGHT, 0.1f, 100.0f);
+	Camera camera(glm::vec3(0.0f, 0.0f, -20.f), glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 1.f, 0.f), 70.0f, (float)DISPLAY_WIDTH / (float)DISPLAY_HEIGHT, 0.1f, 100.0f);
 
 	//SDL_Event e;
 	bool isRunning = true;
@@ -94,17 +95,34 @@ int main(int argc, char** argv)
 	InputControl* vertical = new InputControl();
 	InputControl* lift = new InputControl();
 
+	InputControl* horizontalCam = new InputControl();
+	InputControl* verticalCam = new InputControl();
+	InputControl* normalCam = new InputControl();
+
 	eventHandler.addKeyControl((KeyInputs::KEY_A), *horizontal, 1.f);
 	eventHandler.addKeyControl((KeyInputs::KEY_D), *horizontal, -1.f);
 	eventHandler.addKeyControl((KeyInputs::KEY_W), *vertical, 1.f);
 	eventHandler.addKeyControl((KeyInputs::KEY_S), *vertical, -1.f);
-	eventHandler.addMouseControl((KeyInputs::MOUSE_LEFT_BUTTON), *lift, -1.f);
-	eventHandler.addMouseControl((KeyInputs::MOUSE_RIGHT_BUTTON), *lift, 1.f);
+
+	eventHandler.addKeyControl((KeyInputs::KEY_UP), *verticalCam, 1.f);
+	eventHandler.addKeyControl((KeyInputs::KEY_DOWN), *verticalCam, -1.f);
+	eventHandler.addKeyControl((KeyInputs::KEY_LEFT), *horizontalCam, 1.f);
+	eventHandler.addKeyControl((KeyInputs::KEY_RIGHT), *horizontalCam, -1.f);
+	eventHandler.addKeyControl((KeyInputs::KEY_SPACE), *normalCam, 1.f);
+	eventHandler.addKeyControl((KeyInputs::KEY_Z), *normalCam, -1.f);
+
+	//eventHandler.addMouseControl((KeyInputs::MOUSE_LEFT_BUTTON), *lift, -1.f);
+	//eventHandler.addMouseControl((KeyInputs::MOUSE_RIGHT_BUTTON), *lift, 1.f);
 
 	SimpleControl movementControl;
 	movementControl.AddMovementControls(glm::vec3(1.f, 0.f, 0.f), horizontal);
 	movementControl.AddMovementControls(glm::vec3(0.f, 1.f, 0.f), vertical);
-	movementControl.AddMovementControls(glm::vec3(0.f, 0.f, 1.f), lift);
+
+	CameraControl cameraControl;
+	cameraControl.AddMovementControls(glm::vec3(1.f, 0.f, 0.f), horizontalCam);
+	cameraControl.AddMovementControls(glm::vec3(0.f, 1.f, 0.f), verticalCam);
+	cameraControl.AddMovementControls(glm::vec3(0.f, 0.f, 1.f), normalCam);
+
 
 	// Setup ImGui Context
 	ImGui::CreateContext();
@@ -163,6 +181,8 @@ int main(int argc, char** argv)
 			{
 				processMessages(updateTime, eventHandler, isRunning);
 				movementControl.UpdateTransform(transform);
+				cameraControl.UpdateCamera(camera);
+				currentTest->UpdateCamera(camera);
 				currentTest->UpdateTransform(transform);
 				currentTest->OnUpdate(updateTime, isRunning);
 				updateTime -= frameTime;

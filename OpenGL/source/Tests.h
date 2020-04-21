@@ -5,7 +5,7 @@
 #include <vector>
 #include "TestEventHandler.hpp"
 #include "transform.h"
-
+#include "camera.h"
 //#include "imgui/imgui.h"
 
 namespace test {
@@ -19,6 +19,7 @@ namespace test {
 		virtual void OnImGuiRender(){}
 		virtual void OnEventUpdate(TestEventHandler& e) {}
 		virtual void UpdateTransform(Transform& t) {}
+		virtual void UpdateCamera(Camera& c) {}
 	};
 
 	class TestMenu : public Tests
