@@ -10,7 +10,7 @@
 test::TestTextureObject::TestTextureObject()
 	: m_Mesh("./res/TAL16OBJ.obj"), m_Shader("./res/basicShader"), m_Texture("./res/TALTS.jpg"),
 	m_Camera(glm::vec3(0.0f, 0.0f, -20.f), glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 1.f, 0.f), 70.0f, (float)960 / (float)540, 0.1f, 100.0f)
-
+	
 {
 	forward = glm::vec3(1.f, 0.f, 0.f);
 	up = glm::vec3(0.f, 0.f, -1.f);
@@ -25,6 +25,9 @@ test::TestTextureObject::TestTextureObject()
 	m_PrevButtonState = m_ButtonState;
 	//m_Transform.GetRot()->y = 3.14;
 	m_CameraPitch = 0;
+	glm::vec3 temp = glm::vec3(pos.x,pos.y,0);
+
+	m_TransformTerrain.SetPos(temp);
 }
 
 test::TestTextureObject::~TestTextureObject()
@@ -93,9 +96,18 @@ void test::TestTextureObject::OnImGuiRender()
 
 void test::TestTextureObject::OnRender(float updateTime)
 {
-	Transform t;
-	
-	//m_Terrain.Draw(m_Camera,t);
+	//Transform t;
+	int temp = (int)m_Camera.GetPos()->y % 64;
+
+	if (temp == 20)
+	{
+		glm::vec3 newPos = *m_Camera.GetPos() + glm::vec3(0.f, 78.f, 0.f);
+
+		m_TransformTerrain.SetPos(newPos);
+
+	}
+
+	m_Terrain.Draw(m_Camera,m_TransformTerrain);
 	m_Shader.Bind();
 	m_Texture.Bind();
 	m_Shader.Update(m_Transform, m_Camera);

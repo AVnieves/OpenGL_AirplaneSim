@@ -33,11 +33,11 @@ public:
 			yPos = c.GetPos()->y;
 			zPos = c.GetPos()->z;
 
-			xPos += movement[i].first.x * 100.0 * frameTime * movement[i].second->getAmt();
+			xPos += movement[i].first.x * 10.0 * frameTime * movement[i].second->getAmt();
 			c.GetPos()->x = xPos;
-			yPos += movement[i].first.y * 100.0 * frameTime * movement[i].second->getAmt();
+			yPos += movement[i].first.y * 10.0 * frameTime * movement[i].second->getAmt();
 			c.GetPos()->y = yPos;
-			zPos += movement[i].first.z * 100.0 * frameTime * movement[i].second->getAmt();
+			zPos += movement[i].first.z * 10.0 * frameTime * movement[i].second->getAmt();
 			c.GetPos()->z = zPos;
 		}
 	}

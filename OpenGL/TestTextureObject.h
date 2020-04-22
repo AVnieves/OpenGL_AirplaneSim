@@ -38,6 +38,7 @@ namespace test
 		Mesh m_Mesh;
 		Camera m_Camera;
 		Terrain m_Terrain;
+		Transform m_TransformTerrain;
 	};
 
 }
