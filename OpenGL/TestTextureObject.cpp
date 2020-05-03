@@ -9,17 +9,17 @@
 
 test::TestTextureObject::TestTextureObject()
 	: m_Mesh("./res/TAL16OBJ.obj"), m_Shader("./res/basicShader"), m_Texture("./res/TALTS.jpg"),
-	m_Camera(glm::vec3(0.0f, 0.0f, -20.f), glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 1.f, 0.f), 70.0f, (float)960 / (float)540, 0.1f, 100.0f)
+	m_Camera(glm::vec3(0.0f, -9.5f, -1.5f), glm::vec3(0.f, 1.f, 0.f), glm::vec3(0.f, 0.f, -1.f), 70.0f, (float)960 / (float)540, 0.1f, 100.0f)
 	
 {
-	forward = glm::vec3(1.f, 0.f, 0.f);
-	up = glm::vec3(0.f, 0.f, -1.f);
+	//forward = glm::vec3(1.f, 0.f, 0.f);
+	//up = glm::vec3(0.f, 0.f, -1.f);
 	//pos = glm::vec3(0.f, 0.f, -20.f);	
-	pos = glm::vec3(0.f, 0.f, -1.75f);
+	//pos = glm::vec3(0.f, 0.f, -1.75f);
 
-	m_Camera.SetCameraPosition(pos);
-	m_Camera.SetCameraForward(forward);
-	m_Camera.SetCameraUp(up);
+	//m_Camera.SetCameraPosition(pos);
+	//m_Camera.SetCameraForward(forward);
+	//m_Camera.SetCameraUp(up);
 
 	m_ButtonState = 0;
 	m_PrevButtonState = m_ButtonState;
@@ -62,7 +62,7 @@ void test::TestTextureObject::OnUpdate(double& updateTime, bool& isRunning)
 		{
 			forward = glm::vec3(0.f, 1.f, 0.f);
 			up = glm::vec3(0.f, 0.f, -1.f);
-			pos = glm::vec3(0.f, -10.f, 0.f);
+			pos = glm::vec3(0.f, -9.5f, -1.5f);
 			m_PrevButtonState = m_ButtonState;
 			break;
 		}
@@ -98,14 +98,40 @@ void test::TestTextureObject::OnRender(float updateTime)
 {
 	//Transform t;
 	int temp = (int)m_Camera.GetPos()->y % 64;
+	int temp2 = (int)m_Camera.GetPos()-> x % 64;
+	bool UpdateTerrain = false;
 
 	if (temp == 20)
 	{
 		glm::vec3 newPos = *m_Camera.GetPos() + glm::vec3(0.f, 78.f, 0.f);
-
+		UpdateTerrain = true;
 		m_TransformTerrain.SetPos(newPos);
-
 	}
+
+	if (temp == -20)
+	{
+		glm::vec3 newPos = *m_Camera.GetPos() + glm::vec3(0.f, -78.f, 0.f);
+		UpdateTerrain = true;
+		m_TransformTerrain.SetPos(newPos);
+	}
+
+	if (temp2 == 20)
+	{
+		glm::vec3 newPos = *m_Camera.GetPos() + glm::vec3(-78.f, 0.f, 0.f);
+		UpdateTerrain = true;
+		m_TransformTerrain.SetPos(newPos);
+	}
+	if (temp2 == -20)
+	{
+		glm::vec3 newPos = *m_Camera.GetPos() + glm::vec3(78.f, 0.f, 0.f);
+		UpdateTerrain = true;
+		m_TransformTerrain.SetPos(newPos);
+	}
+
+	//if (UpdateTerrain)
+	//{
+	//	m_TransformTerrain.SetPos()
+	//}
 
 	m_Terrain.Draw(m_Camera,m_TransformTerrain);
 	m_Shader.Bind();

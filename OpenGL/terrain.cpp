@@ -1,6 +1,9 @@
 #include <string>
 #include "terrain.h"
 
+/// 3x3 array of pointers to array
+// switch pointers based on the 9 pointers
+
 Terrain::Terrain(/*const std::string& shaderFile = "./res/basicShader", const std::string& textureFile = "./res/bricks.jpg"*/)
 	: m_Shader("./res/basicShader"), m_Texture("./res/grass_green_d.jpg")
 {

@@ -13,6 +13,7 @@ public:
 		this->pos = pos;
 		this->forward = f;
 		this->up = u;
+		// TODO Test fov 85 - 110
 		this->projection = glm::perspective(fov, aspect, zNear, zFar);
 	}
 
