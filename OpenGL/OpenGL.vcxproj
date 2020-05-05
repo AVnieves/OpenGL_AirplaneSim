@@ -47,6 +47,7 @@
     <ClInclude Include="source\util.h" />
     <ClInclude Include="stb_image2.h" />
     <ClInclude Include="terrain.h" />
+    <ClInclude Include="TestTextureGrid.h" />
     <ClInclude Include="TestTextureObject.h" />
     <ClInclude Include="TestFrameWork.h" />
     <ClInclude Include="TestTexture.h" />

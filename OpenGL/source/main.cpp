@@ -74,13 +74,10 @@ int main(int argc, char** argv)
 {
 	Display display(DISPLAY_WIDTH, DISPLAY_HEIGHT, "OpenGL");
 
-	//Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]));
-	//Mesh T38("./res/TAL16OBJ.obj");
-
 	//Shader shader("./res/basicShader");
 	//Texture texture("./res/TALTS.jpg");
 	Transform transform;
-	Camera camera(glm::vec3(0.0f, 0.0f, -20.f), glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 1.f, 0.f), 70.0f, (float)DISPLAY_WIDTH / (float)DISPLAY_HEIGHT, 0.1f, 100.0f);
+	Camera camera(glm::vec3(0.0f, -9.5f, -1.5f), glm::vec3(0.f, 1.f, 0.f), glm::vec3(0.f, 0.f, -1.f), 70.0f, (float)DISPLAY_WIDTH / (float)DISPLAY_HEIGHT, 0.1f, 100.0f);
 
 	//SDL_Event e;
 	bool isRunning = true;
@@ -180,11 +177,12 @@ int main(int argc, char** argv)
 			while (updateTime >= frameTime)
 			{
 				processMessages(updateTime, eventHandler, isRunning);
+				currentTest->OnUpdate(updateTime, isRunning);
 				movementControl.UpdateTransform(transform);
 				cameraControl.UpdateCamera(camera);
 				currentTest->UpdateCamera(camera);
 				currentTest->UpdateTransform(transform);
-				currentTest->OnUpdate(updateTime, isRunning);
+
 				updateTime -= frameTime;
 				shouldRender = true;
 			}
@@ -195,6 +193,7 @@ int main(int argc, char** argv)
 				delete currentTest;
 				currentTest = testMenu;
 			}
+
 			currentTest->OnImGuiRender();
 			ImGui::End();
 
