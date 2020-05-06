@@ -11,7 +11,7 @@ $(SolutionDir)OpenGL\include;%(AdditionalIncludeDirectories)
 4. In the properties window go under Configuration Properties -> Linker -> General -> Additional Library Directories and add the following line:
 $(SolutionDir)OpenGL\lib;%(AdditionalLibraryDirectories)
 5. In the properties window go under Configuration Properties -> Linker -> Input -> Additional Dependencies and add the following line:
-glew32.lib; glew32s.lib; SDL2.lib; SDL2main.lib; SDL2test.lib; OpenGL32.lib;
+glew32.lib; glew32s.lib; SDL2.lib; SDL2main.lib; SDL2test.lib; OpenGL32.lib;%(AdditionalDependencies)
 
 
 ///////////////// Controls //////////////////
