@@ -7,9 +7,9 @@ Once you have cloned the code files, do the following steps to ensure that the p
 2. Right click the project OpenGL in visual studio solution explorer and select properties. Go under Configuration Properties -> Debugging -> Environment and add the following line:
 PATH=%PATH%;$(SolutionDir)OpenGL\lib;
 3. In the properties window go under Configuration Properties -> C/C++/ -> General -> Additional Include Directories and add the following line:
-$(SolutionDir)OpenGL\include;
+$(SolutionDir)OpenGL\include;%(AdditionalIncludeDirectories)
 4. In the properties window go under Configuration Properties -> Linker -> General -> Additional Library Directories and add the following line:
-$(SolutionDir)OpenGL\lib;
+$(SolutionDir)OpenGL\lib;%(AdditionalLibraryDirectories)
 5. In the properties window go under Configuration Properties -> Linker -> Input -> Additional Dependencies and add the following line:
 glew32.lib; glew32s.lib; SDL2.lib; SDL2main.lib; SDL2test.lib; OpenGL32.lib;
 
