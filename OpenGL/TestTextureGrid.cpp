@@ -102,6 +102,10 @@ void test::TestTextureGrid::OnImGuiRender()
 {
 	
 	ImGui::BeginGroup();
+	ImGui::Text("Controls:");
+	ImGui::Text("ASDW for airplane controls");
+	ImGui::Text("Arrow keys for x, y camera controls");
+	ImGui::Text("Z and space bar for z camera controls");
 	ImGui::RadioButton("Camera Position Side", &m_ButtonState, 1);
 	ImGui::RadioButton("Camera Position Behind", &m_ButtonState, 2);
 	ImGui::SliderFloat2("Camera Forward", &forward.x, -10, 10);

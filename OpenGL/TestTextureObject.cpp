@@ -120,6 +120,10 @@ void test::TestTextureObject::OnUpdate(double& updateTime, bool& isRunning)
 void test::TestTextureObject::OnImGuiRender()
 {
 	ImGui::BeginGroup();
+	ImGui::Text("Controls:");
+	ImGui::Text("ASDW for airplane controls");
+	ImGui::Text("Arrow keys for x, y camera controls");
+	ImGui::Text("Z and space bar for z camera controls");
 	ImGui::RadioButton("Camera Position Top", &m_ButtonState, 0);
 	ImGui::RadioButton("Camera Position Side", &m_ButtonState, 1);
 	ImGui::RadioButton("Camera Position Behind", &m_ButtonState, 2);
@@ -127,11 +131,7 @@ void test::TestTextureObject::OnImGuiRender()
 	ImGui::SliderFloat("Camera Position z", &pos.z, -40, 0);
 	ImGui::SliderFloat2("Camera Forward", &forward.x, -10, 10);
 	ImGui::SliderFloat("Camera Forward z", &forward.z, -10, 10);
-	//ImGui::SliderFloat2("Camera Up", &up.x, -10, 10);
-	//ImGui::SliderFloat("Camera Up", &up.z, -10, 10);
 	ImGui::EndGroup();
-	//m_Camera.SetCameraPosition(pos);
-	//m_Camera.SetCameraForward(forward);
 }
 
 void test::TestTextureObject::OnRender(float updateTime)
