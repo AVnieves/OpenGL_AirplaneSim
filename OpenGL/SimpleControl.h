@@ -43,5 +43,6 @@ public:
 
 private:
 	std::vector<std::pair<glm::vec3, InputControl*>> movement;
+	float thrust;
 };
 

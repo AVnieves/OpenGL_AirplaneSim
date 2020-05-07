@@ -12,7 +12,6 @@ public:
 	void setAmt(float amtToSet);
 private:
 	float amt;
-	//float weight;
 };
 
 inline InputControl::InputControl() :
@@ -37,18 +36,3 @@ inline float InputControl::getAmt()
 
 	return amt;
 }
-
-//inline float InputControl::getWeight()
-//{
-//	if (weight > 1)
-//		weight = 1;
-//	else if (weight < -1)
-//		weight = -1;
-//
-//	return weight;
-//}
-//
-//inline void InputControl::setWeight(float w)
-//{
-//	weight = w;
-//}

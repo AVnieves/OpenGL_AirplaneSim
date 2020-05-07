@@ -84,7 +84,6 @@ int main(int argc, char** argv)
 	TestEventHandler eventHandler;
 	InputControl* horizontal = new InputControl();
 	InputControl* vertical = new InputControl();
-	InputControl* lift = new InputControl();
 
 	InputControl* horizontalCam = new InputControl();
 	InputControl* verticalCam = new InputControl();
@@ -103,14 +102,13 @@ int main(int argc, char** argv)
 	eventHandler.addKeyControl((KeyInputs::KEY_Z), *normalCam, -1.f);
 
 	SimpleControl movementControl;
-	movementControl.AddMovementControls(glm::vec3(1.f, 0.f, 0.f), horizontal);
-	movementControl.AddMovementControls(glm::vec3(0.f, 1.f, 0.f), vertical);
+	movementControl.AddMovementControls(glm::vec3(7.f, 0.f, 0.f), horizontal);
+	movementControl.AddMovementControls(glm::vec3(0.f, 7.f, 0.f), vertical);
 
 	CameraControl cameraControl;
 	cameraControl.AddMovementControls(glm::vec3(1.f, 0.f, 0.f), horizontalCam);
 	cameraControl.AddMovementControls(glm::vec3(0.f, 1.f, 0.f), verticalCam);
 	cameraControl.AddMovementControls(glm::vec3(0.f, 0.f, 1.f), normalCam);
-
 
 	// Setup ImGui Context
 	ImGui::CreateContext();
@@ -138,7 +136,6 @@ int main(int argc, char** argv)
 	float xPos = 0.f;
 	float yPos = 0.f;
 	float zPos = 0.f;
-	//transform.GetRot()->y = 3.14;
 	transform.GetRot()->x = 3.14;
 
 	while (isRunning)
@@ -170,11 +167,11 @@ int main(int argc, char** argv)
 			while (updateTime >= frameTime)
 			{
 				processMessages(updateTime, eventHandler, isRunning);
-				currentTest->OnUpdate(updateTime, isRunning);
 				movementControl.UpdateTransform(transform);
 				cameraControl.UpdateCamera(camera);
-				currentTest->UpdateCamera(camera);
 				currentTest->UpdateTransform(transform);
+				currentTest->UpdateCamera(camera);
+				currentTest->OnUpdate(updateTime, isRunning);
 
 				updateTime -= frameTime;
 				shouldRender = true;

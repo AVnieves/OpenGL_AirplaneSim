@@ -13,8 +13,8 @@ test::TestTextureGrid::TestTextureGrid()
 {
 	forward = glm::vec3(0.f, 1.f, 0.f);
 	up = glm::vec3(0.f, 0.f, -1.f);
-	pos = glm::vec3(0.f, -9.5f, -1.75f);
-
+	pos = glm::vec3(m_T38Transform.GetPos()->x, m_T38Transform.GetPos()->y - 9.5f, m_T38Transform.GetPos()->z - 1.75f);
+	
 	m_Camera.SetCameraPosition(pos);
 	m_Camera.SetCameraForward(forward);
 	m_Camera.SetCameraUp(up);
@@ -39,33 +39,12 @@ void test::TestTextureGrid::OnUpdate(double& updateTime, bool& isRunning)
 	{
 		switch (m_ButtonState)
 		{
-			case 0:
-			{
-				forward = glm::vec3(0.f, 0.f, 1.f);
-				up = glm::vec3(0.f, 1.f, 0.f);
-				pos = glm::vec3(-10.f, 0.f, 0.f);
-				m_PrevButtonState = m_ButtonState;
-				m_Camera.GetPos()->x = pos.x;
-				m_Camera.GetPos()->y = pos.y;
-				m_Camera.GetPos()->z = pos.z;
-				m_Camera.GetForward()->x = forward.x;
-				m_Camera.GetForward()->y = forward.y;
-				m_Camera.GetForward()->z = forward.z;
-				m_Camera.GetUp()->x = up.x;
-				m_Camera.GetUp()->y = up.y;
-				m_Camera.GetUp()->z = up.z;
-
-				//m_Camera.SetCameraPosition(pos);
-				//m_Camera.SetCameraForward(forward);
-				//m_Camera.SetCameraUp(up);
-
-				break;
-			}
 			case 1:
 			{
 				forward = glm::vec3(1.f, 0.f, 0.f);
 				up = glm::vec3(0.f, 0.f, -1.f);
-				pos = glm::vec3(-10.f, 0.f, 0.f);
+				//pos = glm::vec3(-10.f, 0.f, 0.f);
+				pos = glm::vec3(m_T38Transform.GetPos()->x - 10.f, m_T38Transform.GetPos()->y, m_T38Transform.GetPos()->z);
 				m_PrevButtonState = m_ButtonState;
 				m_Camera.GetPos()->x = pos.x;
 				m_Camera.GetPos()->y = pos.y;
@@ -82,7 +61,8 @@ void test::TestTextureGrid::OnUpdate(double& updateTime, bool& isRunning)
 			{
 				forward = glm::vec3(0.f, 1.f, 0.f);
 				up = glm::vec3(0.f, 0.f, -1.f);
-				pos = glm::vec3(0.f, -9.5f, -1.5f);
+				//pos = glm::vec3(0.f, -9.5f, -1.5f);
+				pos = glm::vec3(m_T38Transform.GetPos()->x, m_T38Transform.GetPos()->y - 9.5f, m_T38Transform.GetPos()->z - 1.5f);
 				m_PrevButtonState = m_ButtonState;
 				m_Camera.GetPos()->x = pos.x;
 				m_Camera.GetPos()->y = pos.y;
@@ -104,6 +84,8 @@ void test::TestTextureGrid::OnUpdate(double& updateTime, bool& isRunning)
 	}
 	else
 	{
+		pos = glm::vec3(m_T38Transform.GetPos()->x, m_T38Transform.GetPos()->y - 9.5f, m_T38Transform.GetPos()->z - 1.5f);
+
 		m_Camera.GetPos()->x = pos.x;
 		m_Camera.GetPos()->y = pos.y;
 		m_Camera.GetPos()->z = pos.z;
@@ -120,15 +102,10 @@ void test::TestTextureGrid::OnImGuiRender()
 {
 	
 	ImGui::BeginGroup();
-	ImGui::RadioButton("Camera Position Top", &m_ButtonState, 0);
 	ImGui::RadioButton("Camera Position Side", &m_ButtonState, 1);
 	ImGui::RadioButton("Camera Position Behind", &m_ButtonState, 2);
-	//ImGui::SliderFloat2("Camera Position x, y", &pos.x, -10, 10);
-	//ImGui::SliderFloat("Camera Position z", &pos.z, -40, 0);
 	ImGui::SliderFloat2("Camera Forward", &forward.x, -10, 10);
 	ImGui::SliderFloat("Camera Forward z", &forward.z, -10, 10);
-	//ImGui::SliderFloat2("Camera Up", &up.x, -10, 10);
-	//ImGui::SliderFloat("Camera Up", &up.z, -10, 10);
 	ImGui::EndGroup();
 	
 	//m_Camera.SetCameraPosition(pos);
@@ -142,37 +119,32 @@ void test::TestTextureGrid::OnRender(float updateTime)
 	int temp2 = (int)m_Camera.GetPos()-> x % 64;
 	bool UpdateTerrain = false;
 
-	if (temp == 20)
+	if (temp == 50)
 	{
 		glm::vec3 newPos = *m_Camera.GetPos() + glm::vec3(0.f, 78.f, 0.f);
 		UpdateTerrain = true;
 		m_TransformTerrain.SetPos(newPos);
 	}
 
-	if (temp == -20)
+	if (temp == -50)
 	{
 		glm::vec3 newPos = *m_Camera.GetPos() + glm::vec3(0.f, -78.f, 0.f);
 		UpdateTerrain = true;
 		m_TransformTerrain.SetPos(newPos);
 	}
 
-	if (temp2 == 20)
+	if (temp2 == 50)
 	{
 		glm::vec3 newPos = *m_Camera.GetPos() + glm::vec3(-78.f, 0.f, 0.f);
 		UpdateTerrain = true;
 		m_TransformTerrain.SetPos(newPos);
 	}
-	if (temp2 == -20)
+	if (temp2 == -50)
 	{
 		glm::vec3 newPos = *m_Camera.GetPos() + glm::vec3(78.f, 0.f, 0.f);
 		UpdateTerrain = true;
 		m_TransformTerrain.SetPos(newPos);
 	}
-
-	//if (UpdateTerrain)
-	//{
-	//	m_TransformTerrain.SetPos()
-	//}
 
 	m_Terrain.Draw(m_Camera, m_TransformTerrain);
 	m_Shader.Bind();
@@ -183,13 +155,7 @@ void test::TestTextureGrid::OnRender(float updateTime)
 
 void test::TestTextureGrid::OnEventUpdate(TestEventHandler& eventHandler)
 {
-	// inputs:
-	// INput events????
-	//bool isRunning;
-	//simpleControl.processMessages(0.0, eventHandler, isRunning);
-	
-	// 1. Process events;
-	// 2. 
+	// Events to update 
 }
 
 void test::TestTextureGrid::UpdateTransform(Transform& t)
@@ -200,11 +166,4 @@ void test::TestTextureGrid::UpdateTransform(Transform& t)
 void test::TestTextureGrid::UpdateCamera(Camera& c)
 {
 	pos = *c.GetPos();
-	//*m_Camera.GetPos() = *c.GetPos();
 }
-
-//void test::TestTextureObject::UpdateCamera2(Camera& c, glm::vec3 pos, glm::vec3 forward, glm::vec3 up)
-//{
-//
-//}
-

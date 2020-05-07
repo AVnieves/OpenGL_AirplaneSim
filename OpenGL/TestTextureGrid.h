@@ -30,12 +30,6 @@ namespace test
 		glm::vec3 forward;
 		glm::vec3 up;
 
-
-		//SimpleControl m_SimpleControl;
-		// m_Transform;
-		//Texture m_Texture;
-		//Mesh m_Mesh;
-
 		Mesh m_T38Mesh;
 		Texture m_T38Texture;
 		Transform m_T38Transform;
