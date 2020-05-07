@@ -1,3 +1,4 @@
+// Adapted from Bennybox tutorial on Youtube
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
@@ -8,9 +9,9 @@ class Texture
 {
 public:
 	Texture(const std::string& fileName);
-
+	Texture();
 	void Bind();
-
+	void LoadTexture(const std::string& filename);
 	virtual ~Texture();
 protected:
 private:

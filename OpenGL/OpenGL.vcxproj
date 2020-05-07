@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AirplaneControl.h" />
     <ClInclude Include="CameraControl.h" />
     <ClInclude Include="include\imgui\imconfig.h" />
     <ClInclude Include="include\imgui\imgui.h" />
@@ -47,6 +48,7 @@
     <ClInclude Include="source\util.h" />
     <ClInclude Include="stb_image2.h" />
     <ClInclude Include="terrain.h" />
+    <ClInclude Include="terrain2.h" />
     <ClInclude Include="TestTextureGrid.h" />
     <ClInclude Include="TestTextureObject.h" />
     <ClInclude Include="TestFrameWork.h" />
@@ -70,6 +72,8 @@
     <ClCompile Include="source\texture.cpp" />
     <ClCompile Include="stb_image2.c" />
     <ClCompile Include="terrain.cpp" />
+    <ClCompile Include="terrain2.cpp" />
+    <ClCompile Include="TestTextureGrid.cpp" />
     <ClCompile Include="TestTextureObject.cpp" />
     <ClCompile Include="TestFrameWork.cpp" />
     <ClCompile Include="TestTexture.cpp" />
@@ -77,6 +81,8 @@
   <ItemGroup>
     <None Include="res\basicShader.fs" />
     <None Include="res\basicShader.vs" />
+    <None Include="res\terrainShader.fs" />
+    <None Include="res\terrainShader.vs" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\bricks.jpg" />

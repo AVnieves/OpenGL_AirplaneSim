@@ -1,6 +1,8 @@
+// Adapted from Bennybox tutorial on Youtube
 #include "shader.h"
 #include <iostream>
 #include <fstream>
+
 
 Shader::Shader(const std::string& fileName)
 {
@@ -24,6 +26,8 @@ Shader::Shader(const std::string& fileName)
 	m_uniforms[0] = glGetUniformLocation(m_program, "MVP");
 	m_uniforms[1] = glGetUniformLocation(m_program, "Normal");
 	m_uniforms[2] = glGetUniformLocation(m_program, "lightDirection");
+    m_uniforms[3] = glGetUniformLocation(m_program, "MaxHeight");
+
 }
 
 Shader::~Shader()
@@ -46,12 +50,21 @@ void Shader::Update(const Transform& transform, const Camera& camera)
 {
 	glm::mat4 MVP = transform.GetMVP(camera);
 	glm::mat4 Normal = transform.GetModel();
-
+    float maxHeight = 100;
 	glUniformMatrix4fv(m_uniforms[0], 1, GL_FALSE, &MVP[0][0]);
 	glUniformMatrix4fv(m_uniforms[1], 1, GL_FALSE, &Normal[0][0]);
 	glUniform3f(m_uniforms[2], 0.0f, 0.0f, 1.0f);
 }
 
+void Shader::UpdateTerrain(const Transform& transform, const Camera& camera, const float max)
+{
+    glm::mat4 MVP = transform.GetMVP(camera);
+    glm::mat4 Normal = transform.GetModel();
+    glUniformMatrix4fv(m_uniforms[0], 1, GL_FALSE, &MVP[0][0]);
+    glUniformMatrix4fv(m_uniforms[1], 1, GL_FALSE, &Normal[0][0]);
+    glUniform3f(m_uniforms[2], 0.0f, 0.0f, 1.0f);
+    glUniform1f(m_uniforms[3], max);
+}
 std::string Shader::LoadShader(const std::string& fileName)
 {
     std::ifstream file;

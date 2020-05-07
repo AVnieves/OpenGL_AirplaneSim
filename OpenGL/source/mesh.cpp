@@ -1,3 +1,5 @@
+// Adapted from Bennybox tutorial on Youtube
+
 #include "mesh.h"
 #include "util.h"
 #include "debugTimer.h"

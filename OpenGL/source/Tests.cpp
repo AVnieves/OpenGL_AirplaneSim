@@ -1,3 +1,4 @@
+// Based on the Cherno Youtube opengl tutorial youtube channel
 #include "Tests.h"
 #include "imgui/imgui.h"
 

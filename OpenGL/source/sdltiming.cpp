@@ -1,3 +1,4 @@
+// Adapted from Bennybox tutorial on Youtube
 #include "sdltiming.hpp"
 #include <SDL2/SDL.h>
 #include <time.h>

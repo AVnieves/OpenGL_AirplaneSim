@@ -10,6 +10,8 @@ class Terrain
 public:
 	Terrain(/*const std::string& shaderFile,const std::string& textureFile*/);
 	~Terrain();
+	void LoadHeightMap(const std::string& filename, unsigned char bpp, unsigned int w, unsigned int h);
+
 	void GenerateTerrain();
 	void Draw(Camera& c, Transform& t);
 	//void SetShader(std::string& shaderFile);

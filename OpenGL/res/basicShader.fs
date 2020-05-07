@@ -10,4 +10,6 @@ void main()
 {
 	gl_FragColor = texture2D(sampler, texCoord0) * 
 		clamp(dot(-lightDirection, normal0), 0.0, 1.0);
+
+	
 }

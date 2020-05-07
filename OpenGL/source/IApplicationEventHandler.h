@@ -1,3 +1,4 @@
+// Adapted from Bennybox tutorial on Youtube
 #pragma once
 
 class IApplicationEventHandler

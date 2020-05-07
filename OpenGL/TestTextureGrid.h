@@ -7,8 +7,7 @@
 #include "source/texture.h"
 #include "source/mesh.h"
 #include "source/camera.h"
-#include "terrain.h"
-
+#include "terrain2.h"
 
 namespace test
 {
@@ -31,13 +30,18 @@ namespace test
 		glm::vec3 forward;
 		glm::vec3 up;
 
-		Shader m_Shader;
+
 		//SimpleControl m_SimpleControl;
-		Transform m_Transform;
-		Texture m_Texture;
-		Mesh m_Mesh;
+		// m_Transform;
+		//Texture m_Texture;
+		//Mesh m_Mesh;
+
+		Mesh m_T38Mesh;
+		Texture m_T38Texture;
+		Transform m_T38Transform;
+		Shader m_Shader;
 		Camera m_Camera;
-		Terrain m_Terrain;
+		Terrain2 m_Terrain;
 		Transform m_TransformTerrain;
 	};
 

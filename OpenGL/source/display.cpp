@@ -1,3 +1,4 @@
+// Adapted from Bennybox tutorial on Youtube
 #include "display.h"
 #include <GL/glew.h>
 #include <iostream>

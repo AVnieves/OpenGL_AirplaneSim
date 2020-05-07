@@ -1,3 +1,4 @@
+// Based on the Cherno Youtube opengl tutorial youtube channel
 #pragma once
 #include <functional>
 #include <iostream>

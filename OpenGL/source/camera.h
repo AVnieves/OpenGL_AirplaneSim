@@ -1,3 +1,5 @@
+// Adapted from Bennybox tutorial on Youtube
+
 #ifndef CAMERA_INCLUDED_H
 #define CAMERA_INCLUDED_H
 

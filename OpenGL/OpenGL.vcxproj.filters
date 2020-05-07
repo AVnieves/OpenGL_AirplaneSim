@@ -114,6 +114,12 @@
     <ClInclude Include="TestTextureGrid.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="AirplaneControl.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="terrain2.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\display.cpp">
@@ -176,12 +182,24 @@
     <ClCompile Include="TestTextureObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="terrain2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestTextureGrid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\basicShader.fs">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\basicShader.vs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\terrainShader.fs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\terrainShader.vs">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

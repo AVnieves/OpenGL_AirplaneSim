@@ -1,3 +1,4 @@
+// Adapted from Bennybox tutorial on Youtube
 #ifndef TIMING_HPP
 #define TIMING_HPP
 

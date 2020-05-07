@@ -1,3 +1,4 @@
+// Adapted from Bennybox tutorial on Youtube
 #ifndef DEBUGTIMER_H_INCLUDED
 #define DEBUGTIMER_H_INCLUDED
 

@@ -29,6 +29,8 @@
 #include "../TestTexture.h"
 #include "../TestTextureObject.h"
 #include "../CameraControl.h"
+#include "../TestTextureGrid.h"
+
 
 static const int DISPLAY_WIDTH = 800;
 static const int DISPLAY_HEIGHT = 600;
@@ -73,20 +75,12 @@ void processMessages(double delta, TestEventHandler& eventHandler, bool& isAppRu
 int main(int argc, char** argv)
 {
 	Display display(DISPLAY_WIDTH, DISPLAY_HEIGHT, "OpenGL");
-
-	//Shader shader("./res/basicShader");
-	//Texture texture("./res/TALTS.jpg");
 	Transform transform;
 	Camera camera(glm::vec3(0.0f, -9.5f, -1.5f), glm::vec3(0.f, 1.f, 0.f), glm::vec3(0.f, 0.f, -1.f), 70.0f, (float)DISPLAY_WIDTH / (float)DISPLAY_HEIGHT, 0.1f, 100.0f);
 
-	//SDL_Event e;
 	bool isRunning = true;
-	float xcounter = 0.0f;
-	float ycounter = 0.0f;
-	float zcounter = 0.0f;
 
 	// control
-	//float amt = 0.f;
 	TestEventHandler eventHandler;
 	InputControl* horizontal = new InputControl();
 	InputControl* vertical = new InputControl();
@@ -107,9 +101,6 @@ int main(int argc, char** argv)
 	eventHandler.addKeyControl((KeyInputs::KEY_RIGHT), *horizontalCam, -1.f);
 	eventHandler.addKeyControl((KeyInputs::KEY_SPACE), *normalCam, 1.f);
 	eventHandler.addKeyControl((KeyInputs::KEY_Z), *normalCam, -1.f);
-
-	//eventHandler.addMouseControl((KeyInputs::MOUSE_LEFT_BUTTON), *lift, -1.f);
-	//eventHandler.addMouseControl((KeyInputs::MOUSE_RIGHT_BUTTON), *lift, 1.f);
 
 	SimpleControl movementControl;
 	movementControl.AddMovementControls(glm::vec3(1.f, 0.f, 0.f), horizontal);
@@ -134,6 +125,8 @@ int main(int argc, char** argv)
 	testMenu->AddTest<test::TestFrameWork>("Test Camera Postion");
 	testMenu->AddTest<test::TestTexture>("Test Texture Plane");
 	testMenu->AddTest<test::TestTextureObject>("Test Texture and Object");
+	testMenu->AddTest<test::TestTextureGrid>("Test texture grid terrain");
+
 	// frame updates
 	unsigned int fps = 0;
 	double lastTime = SDLTiming::getTime();

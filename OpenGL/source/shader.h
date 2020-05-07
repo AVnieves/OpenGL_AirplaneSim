@@ -1,3 +1,4 @@
+// Adapted from Bennybox tutorial on Youtube
 #ifndef SHADER_INCLUDED_H
 #define SHADER_INCLUDED_H
 
@@ -12,12 +13,14 @@ public:
 
 	void Bind();
 	void Update(const Transform& transform, const Camera& camera);
-
+	void UpdateTerrain(const Transform& transoform, const Camera& camera, const float max);
 	virtual ~Shader();
+
 protected:
 private:
+	//float maxHeightTerrain;
 	static const unsigned int NUM_SHADERS = 2;
-	static const unsigned int NUM_UNIFORMS = 3;
+	static const unsigned int NUM_UNIFORMS = 4;
 	void operator=(const Shader& shader) {}
 	Shader(const Shader& shader) {}
 
